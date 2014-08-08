@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.i18n.encoding" value="utf-8" />
+	<package name="hbc" extends="struts-default">
+		<action name="UserAction" class="action.UserAction">
+			<result name="showUser">/manager/userbar.jsp</result>
+			<result name="showUserList">/manager/userList.jsp</result>
+			<result name="error>">/manager/userError.jsp</result>
+		</action>
+
+		<action name="EditAction" class="action.EditAction">
+			<result name="test">/edit/test.jsp</result>
+			<result name="list">/edit/articleList.jsp</result>
+			<result name="add">/edit/edit.jsp</result>
+			<result name="edit">/edit/edit.jsp</result>
+		</action>
+		<action name="ShowAction" class="action.ShowAction">
+			<result name="show">/show/show.jsp</result>
+		</action>
+		<action name="UploadAction" class="action.UploadAction">
+		</action>
+	</package>
+</struts>
