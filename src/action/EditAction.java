@@ -41,7 +41,7 @@ public class EditAction extends ActionSupport{
             return this.list();
         ArticleService as = new ArticleService();
         article_ID = as.addArticle(" "," "," ",user.getUser_ID(),Evn.ARTICLE_SAVE_LOCATION.DATABASE);
-        title=text="δ�༭";
+        title=text="待编辑";
         return "add";
     }
     public String edit(){
