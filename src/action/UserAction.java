@@ -28,12 +28,12 @@ import service.UserService;
 public class UserAction  extends ActionSupport{
 	String username="";
 	String userpwd="";
-        User user;
+	User user;
 	//char userauthority;
-        //int user_ID;
+    //int user_ID;
         
-	String userManage = " <a href="+UrlString.UserAction+"!list.action  target=\"blank\">ÁĞ³öÓÃ»§</a>";
-	String str = "<a  href=\""+UrlString.RootPath+"/manager/userLogin.jsp\" >µÇÂ¼/a><a  href=\""+UrlString.RootPath+"/hbc/manager/userAdd.jsp\" >×¢²á/a>";
+	String userManage = " <a href="+UrlString.UserAction+"!list.action  target=\"blank\">ç®¡ç†</a>";
+	String str = "<a  href=\""+UrlString.RootPath+"/manager/userLogin.jsp\" >ç™»å½•</a><a  href=\""+UrlString.RootPath+"/hbc/manager/userAdd.jsp\" >æ³¨å†Œ</a>";
 	
 	PageList<User> plist;
 	String operID;
@@ -42,17 +42,17 @@ public class UserAction  extends ActionSupport{
 	public  String login(){
 		user = us.getUser(username);
 		if(user==null){
-			str = "ÃÜÂë»òÕßÓÃ»§Ãû²»¶Ô<hre>";
+			str = "ç”¨æˆ·ä¸å­˜åœ¨";
 			return "showUser";
 		}
 		if(userpwd.equals(user.getUser_pwd())){
-			str = username+ "<a href="+UrlString.RootPath+"/Action/UserAction!logOut.action>µÇ³ö/a>";
+			str = username+ "<a href="+UrlString.RootPath+"/Action/UserAction!logOut.action>ç™»å‡º</a>";
 			HttpServletRequest request = ServletActionContext.getRequest();
 			request.getSession().setAttribute("userInfo",user);
 			if(isAuthor())
 				str +=userManage;
 		}else{
-			str = "ÃÜÂë´íÎó<hre>";
+			str = "å¯†ç é”™è¯¯";
 		}
 		return "showUser";
 	}
@@ -64,10 +64,10 @@ public class UserAction  extends ActionSupport{
 	public  String show(){
 		HttpServletRequest request = ServletActionContext.getRequest();
 		if(request.getSession().getAttribute("userInfo") == null)
-			str = "<a  href="+UrlString.RootPath+"/manager/userLogin.jsp>µÇÂ¼/a><a  href="+UrlString.RootPath+"/manager/userAdd.jsp >×¢²á/a>";
+			str = "<a  href="+UrlString.RootPath+"/manager/userLogin.jsp>ï¿½ï¿½Â¼/a><a  href="+UrlString.RootPath+"/manager/userAdd.jsp >×¢ï¿½ï¿½/a>";
 		else{
 			user =(User)request.getSession().getAttribute("userInfo");
-			str = user.getUser_name()+ "<a href="+UrlString.RootPath+"/Action/UserAction!logOut.action>µÇ³ö/a>";
+			str = user.getUser_name()+ "<a href="+UrlString.RootPath+"/Action/UserAction!logOut.action>ï¿½Ç³ï¿½/a>";
 		}
 		if(isAuthor())
 			str +=userManage;
@@ -82,7 +82,7 @@ public class UserAction  extends ActionSupport{
 			plist = new PageList<>(userList,userList.size(),30,pageNo,"");
 			return "showUserList";
 		}
-		str += "ÎÒÒ²²»ÖªµÀÕâÊÇÊ²Ã´" ;
+		str += "ï¿½ï¿½Ò²ï¿½ï¿½Öªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê²Ã´" ;
 		return "showUser";
 	}
 	public String deleteUser(){
@@ -95,7 +95,7 @@ public class UserAction  extends ActionSupport{
 			plist = new PageList<>(userList,userList.size(),30,pageNo,"");
 			return "showUserList";
 		}
-		str += "ÕæµÄ²»ÖªµÀ" ;
+		str += "ï¿½ï¿½Ä²ï¿½Öªï¿½ï¿½" ;
 		return "showUserList";
 	}
          public String promotUser(){
@@ -105,7 +105,7 @@ public class UserAction  extends ActionSupport{
 			us.changePermition(Integer.valueOf(operID),Evn.USER_AUTHORITY.EDITER);
 			 return "showUserList";
 		}
-		str += "ß×£¬ÕâÊÇÊ²Ã´" ;
+		str += "ï¿½×£ï¿½ï¿½ï¿½ï¿½ï¿½Ê²Ã´" ;
 		return "showUser";
 	}
 	public String changePwd(){
@@ -115,14 +115,14 @@ public class UserAction  extends ActionSupport{
 	public String addUser(){
 		if(!username.isEmpty()){
 			if(!us.addUser(username, userpwd, 'e')){
-				str = username + "ºÃ°É£¬ÎÒ²»ÖªµÀ";
+				str = username + "ï¿½Ã°É£ï¿½ï¿½Ò²ï¿½Öªï¿½ï¿½";
 				return "showUser";
 			}	
 			HttpServletRequest request = ServletActionContext.getRequest();
                         user = us.getUser(username);
 			request.getSession().setAttribute("userInfo", user);
 		}
-		str = username+ "<a href="+UrlString.RootPath+"/Action/UserAction!logOut.action>µÇ³ö/a>";
+		str = username+ "<a href="+UrlString.RootPath+"/Action/UserAction!logOut.action>ï¿½Ç³ï¿½/a>";
 		return "showUser";
 	}
 	public boolean isAuthor(){
