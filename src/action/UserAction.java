@@ -64,7 +64,7 @@ public class UserAction  extends ActionSupport{
 	public  String show(){
 		HttpServletRequest request = ServletActionContext.getRequest();
 		if(request.getSession().getAttribute("userInfo") == null)
-			str = "<a  href="+UrlString.RootPath+"/manager/userLogin.jsp>��¼/a><a  href="+UrlString.RootPath+"/manager/userAdd.jsp >ע��/a>";
+			str = "<a  href="+UrlString.RootPath+"/manager/userLogin.jsp>登录</a><a  href="+UrlString.RootPath+"/manager/userAdd.jsp >注册</a>";
 		else{
 			user =(User)request.getSession().getAttribute("userInfo");
 			str = user.getUser_name()+ "<a href="+UrlString.RootPath+"/Action/UserAction!logOut.action>�ǳ�/a>";
@@ -82,7 +82,7 @@ public class UserAction  extends ActionSupport{
 			plist = new PageList<>(userList,userList.size(),30,pageNo,"");
 			return "showUserList";
 		}
-		str += "��Ҳ��֪������ʲô" ;
+		str += "不知道这是什么" ;
 		return "showUser";
 	}
 	public String deleteUser(){
@@ -95,7 +95,7 @@ public class UserAction  extends ActionSupport{
 			plist = new PageList<>(userList,userList.size(),30,pageNo,"");
 			return "showUserList";
 		}
-		str += "��Ĳ�֪��" ;
+		str += "这个是什么？" ;
 		return "showUserList";
 	}
          public String promotUser(){
@@ -105,17 +105,17 @@ public class UserAction  extends ActionSupport{
 			us.changePermition(Integer.valueOf(operID),Evn.USER_AUTHORITY.EDITER);
 			 return "showUserList";
 		}
-		str += "�ף�����ʲô" ;
+		str += "不知道。。。。。。。" ;
 		return "showUser";
 	}
 	public String changePwd(){
-		//涓ょ鍒ゆ柇
+		//还没写
 		return "changePwd";
 	}
 	public String addUser(){
 		if(!username.isEmpty()){
 			if(!us.addUser(username, userpwd, 'e')){
-				str = username + "�ðɣ��Ҳ�֪��";
+				str = username + "已经存在";
 				return "showUser";
 			}	
 			HttpServletRequest request = ServletActionContext.getRequest();
