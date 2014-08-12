@@ -67,7 +67,7 @@ public class UserAction  extends ActionSupport{
 			str = "<a  href="+UrlString.RootPath+"/manager/userLogin.jsp>登录</a><a  href="+UrlString.RootPath+"/manager/userAdd.jsp >注册</a>";
 		else{
 			user =(User)request.getSession().getAttribute("userInfo");
-			str = user.getUser_name()+ "<a href="+UrlString.RootPath+"/Action/UserAction!logOut.action>�ǳ�/a>";
+			str = user.getUser_name()+ "<a href="+UrlString.RootPath+"/Action/UserAction!logOut.action>登出<a>";
 		}
 		if(isAuthor())
 			str +=userManage;
@@ -122,7 +122,7 @@ public class UserAction  extends ActionSupport{
                         user = us.getUser(username);
 			request.getSession().setAttribute("userInfo", user);
 		}
-		str = username+ "<a href="+UrlString.RootPath+"/Action/UserAction!logOut.action>�ǳ�/a>";
+		str = username+ "<a href="+UrlString.RootPath+"/Action/UserAction!logOut.action>登出</a>";
 		return "showUser";
 	}
 	public boolean isAuthor(){
