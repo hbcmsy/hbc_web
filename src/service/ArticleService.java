@@ -34,8 +34,6 @@ public class ArticleService {
             switch(state){
                 case USE:
                     return new ArticleDao().getArticleList('u');
-                case PREDELETE:
-                    return new ArticleDao().getArticleList('p');
                 case DELETE:
                     return new ArticleDao().getArticleList('d');
                 case EDIT:
@@ -55,8 +53,6 @@ public class ArticleService {
             switch(state){
                 case USE:
                     return new ArticleDao().getArticleList(user_ID,'u');
-                case PREDELETE:
-                    return new ArticleDao().getArticleList(user_ID,'p');
                 case DELETE:
                     return new ArticleDao().getArticleList(user_ID,'d');
                 case EDIT:
@@ -76,8 +72,6 @@ public class ArticleService {
             switch(state){
                 case USE:
                     return new ArticleDao().getArticleList(name,'u');
-                case PREDELETE:
-                    return new ArticleDao().getArticleList(name,'p');
                 case DELETE:
                     return new ArticleDao().getArticleList(name,'d');
                 case EDIT:
@@ -150,9 +144,6 @@ public class ArticleService {
             switch(state){
                 case USE:
                     article.setArticle_state('u');
-                    break;
-                case PREDELETE:
-                    article.setArticle_state('p');
                     break;
                 case DELETE:
                     article.setArticle_state('d');

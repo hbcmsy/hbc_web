@@ -13,5 +13,5 @@ package common;
 public class Evn {
     public enum ARTICLE_SAVE_LOCATION{DATABASE,FILESYSTEM};
     public enum USER_AUTHORITY{USER,EDITER,ADMIN};
-    public enum ARTICLE{USE,EDIT,PREDELETE,DELETE,ALL};
+    public enum ARTICLE{USE,EDIT,DELETE,ALL};
 }

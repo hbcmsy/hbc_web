@@ -21,12 +21,13 @@ public class EditAction extends ActionSupport{
     String category;
     String text;
     Evn.ARTICLE state = Evn.ARTICLE.ALL;
+    String STATE = "ALL";    
     public String list(){
         HttpServletRequest request = ServletActionContext.getRequest();
         User user =(User)request.getSession().getAttribute("userInfo");
         if(user == null)
             return "list";
-        List<Title> list = new ArticleService().getArticleList(user.getUser_ID(), state);
+        List<Title> list = new ArticleService().getArticleList(user.getUser_ID(),this.getState(STATE));
         plist = new PageList<>(list,list.size(),30,pageNo,"hehe");
         return "list";
     }
@@ -100,7 +101,29 @@ public class EditAction extends ActionSupport{
         as.changleAricleState(article_ID,Evn.ARTICLE.USE);
         return this.list();
     }
-    public String getEditor() {
+    Evn.ARTICLE getState(String STATE){
+    	switch(STATE.charAt(0))
+    	{
+    	case 'A':
+    		return Evn.ARTICLE.ALL;
+    	case 'U':
+    		return Evn.ARTICLE.USE;
+    	case 'E':
+    		return Evn.ARTICLE.EDIT;
+    	case 'D':
+    		return Evn.ARTICLE.DELETE;
+		default:
+			return Evn.ARTICLE.ALL;
+    	}
+    	 
+    } 
+    public String getSTATE() {
+		return STATE;
+	}
+	public void setSTATE(String sTATE) {
+		STATE = sTATE;
+	}
+	public String getEditor() {
         return editor;
     }
 
