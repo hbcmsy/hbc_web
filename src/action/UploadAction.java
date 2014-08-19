@@ -35,6 +35,46 @@ public class UploadAction extends ActionSupport{
     String uploadFileName;  
     int article_ID;
     String CKEditorFuncNum;
+    public String execute(){
+        InputStream is = null;
+        try {
+            HttpServletRequest request = ServletActionContext.getRequest();
+            article_ID =(int)request.getSession().getAttribute("article_ID");
+            
+            is = new FileInputStream(upload);
+            String uploadPath = ServletActionContext.getServletContext()
+                    .getRealPath("articleImage")+"\\"+String.valueOf(article_ID);   //閻犱礁澧介悿鍡樼┍濠靛棛鎽犻柣鈺婂枛缂嶏拷  
+            String fileName = java.util.UUID.randomUUID().toString();  //闂佹彃娲ㄩ弫顥籙ID闁汇劌瀚弻鐔奉嚕韫囨稒顓归柡鍫濇惈閹筹繝宕ラ敓锟� 
+            File dir = new File(uploadPath);
+            if(!dir.exists())
+                dir.mkdir();
+            fileName += uploadFileName.substring(uploadFileName.length() - 4);
+            File toFile = new File(uploadPath+"\\"+fileName);
+            if(!toFile.exists())
+                toFile.createNewFile();
+            OutputStream os = new FileOutputStream(toFile);
+            byte[] buffer = new byte[1024];
+            int length = 0;
+            while ((length = is.read(buffer)) > 0) {
+                os.write(buffer, 0, length);
+            }   is.close();
+            os.close();
+            is.close();
+            HttpServletResponse response = ServletActionContext.getResponse();  
+            response.setCharacterEncoding("UTF-8");  
+            PrintWriter out = response.getWriter();  
+            String callback = ServletActionContext.getRequest().getParameter("CKEditorFuncNum");    
+            out.println("<script type=\"text/javascript\">");    
+            out.println("window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + "/articleImage/"+String.valueOf(article_ID)+"/" + fileName + "','')");    
+            out.println("</script>");  
+            return SUCCESS;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UploadAction.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UploadAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     public String image() {
         InputStream is = null;
         try {
@@ -67,7 +107,7 @@ public class UploadAction extends ActionSupport{
             out.println("<script type=\"text/javascript\">");    
             out.println("window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + "/articleImage/"+String.valueOf(article_ID)+"/" + fileName + "','')");    
             out.println("</script>");  
-            return "";
+            return null;
         } catch (FileNotFoundException ex) {
             Logger.getLogger(UploadAction.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
