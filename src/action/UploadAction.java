@@ -36,7 +36,8 @@ public class UploadAction extends ActionSupport{
     int article_ID;
     String CKEditorFuncNum;
     public String execute(){
-        InputStream is = null;
+    	System.err.print("execute start");
+    	InputStream is = null;
         try {
             HttpServletRequest request = ServletActionContext.getRequest();
             article_ID =(int)request.getSession().getAttribute("article_ID");
