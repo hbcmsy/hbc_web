@@ -85,22 +85,23 @@ public class UploadAction extends ActionSupport{
     public String image() {
     	Properties props=System.getProperties();
     	String separator = props.getProperty("file.separator");
-    	System.err.printf("execute start");
+    	System.err.println("execute start");
         InputStream is = null;
         try {
             HttpServletRequest request = ServletActionContext.getRequest();
             article_ID =(int)request.getSession().getAttribute("article_ID");
             is = new FileInputStream(upload);
             String uploadPath = ServletActionContext.getServletContext().getRealPath("articleImage")+separator+String.valueOf(article_ID);
-            System.err.printf("uploadPath:"+uploadPath);
+            System.err.println("uploadPath:"+uploadPath);
             String fileName = java.util.UUID.randomUUID().toString(); 
             File dir = new File(uploadPath);
-            System.err.printf("准备创建文件夹");
+            System.err.printf("准备创建文件夹 ");
             if(!dir.exists())
                 dir.mkdir();
-            System.err.printf("创建目录完成");
+            System.err.println("创建目录:"+uploadPath);
             fileName += uploadFileName.substring(uploadFileName.length() - 4);
-            File toFile = new File(uploadPath+separator+fileName);
+            File toFile = new File(uploadPath,fileName);
+            System.err.printf("创建文件"+toFile.toString());
             if(!toFile.exists())
                 toFile.createNewFile();
             System.err.printf("创建文件完成");
