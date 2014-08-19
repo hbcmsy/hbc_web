@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -82,13 +83,15 @@ public class UploadAction extends ActionSupport{
         return null;
     }
     public String image() {
+    	Properties props=System.getProperties();
+    	String separator = props.getProperty("file.separator");
     	System.err.print("execute start");
         InputStream is = null;
         try {
             HttpServletRequest request = ServletActionContext.getRequest();
             article_ID =(int)request.getSession().getAttribute("article_ID");
             is = new FileInputStream(upload);
-            String uploadPath = ServletActionContext.getServletContext().getRealPath("articleImage")+"\\"+String.valueOf(article_ID);
+            String uploadPath = ServletActionContext.getServletContext().getRealPath("articleImage")+separator+String.valueOf(article_ID);
             System.err.print("uploadPath:"+uploadPath);
             String fileName = java.util.UUID.randomUUID().toString(); 
             File dir = new File(uploadPath);
@@ -97,7 +100,7 @@ public class UploadAction extends ActionSupport{
                 dir.mkdir();
             System.err.print("创建目录完成");
             fileName += uploadFileName.substring(uploadFileName.length() - 4);
-            File toFile = new File(uploadPath+"\\"+fileName);
+            File toFile = new File(uploadPath+separator+fileName);
             if(!toFile.exists())
                 toFile.createNewFile();
             System.err.print("创建文件完成");
