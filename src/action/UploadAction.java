@@ -97,7 +97,7 @@ public class UploadAction extends ActionSupport{
             File dir = new File(uploadPath);
             System.err.printf("准备创建文件夹 ");
             if(!dir.exists())
-                dir.mkdir();
+                dir.mkdirs();
             System.err.println("创建目录:"+uploadPath);
             fileName += uploadFileName.substring(uploadFileName.length() - 4);
             File toFile = new File(uploadPath,fileName);
