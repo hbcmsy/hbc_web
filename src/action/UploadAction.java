@@ -82,22 +82,25 @@ public class UploadAction extends ActionSupport{
         return null;
     }
     public String image() {
+    	System.err.print("execute start");
         InputStream is = null;
         try {
             HttpServletRequest request = ServletActionContext.getRequest();
             article_ID =(int)request.getSession().getAttribute("article_ID");
-            
             is = new FileInputStream(upload);
-            String uploadPath = ServletActionContext.getServletContext()
-                    .getRealPath("articleImage")+"\\"+String.valueOf(article_ID);   //閻犱礁澧介悿鍡樼┍濠靛棛鎽犻柣鈺婂枛缂嶏拷  
-            String fileName = java.util.UUID.randomUUID().toString();  //闂佹彃娲ㄩ弫顥籙ID闁汇劌瀚弻鐔奉嚕韫囨稒顓归柡鍫濇惈閹筹繝宕ラ敓锟� 
+            String uploadPath = ServletActionContext.getServletContext().getRealPath("articleImage")+"\\"+String.valueOf(article_ID);
+            System.err.print("uploadPath:"+uploadPath);
+            String fileName = java.util.UUID.randomUUID().toString(); 
             File dir = new File(uploadPath);
+            System.err.print("准备创建文件夹");
             if(!dir.exists())
                 dir.mkdir();
+            System.err.print("创建目录完成");
             fileName += uploadFileName.substring(uploadFileName.length() - 4);
             File toFile = new File(uploadPath+"\\"+fileName);
             if(!toFile.exists())
                 toFile.createNewFile();
+            System.err.print("创建文件完成");
             OutputStream os = new FileOutputStream(toFile);
             byte[] buffer = new byte[1024];
             int length = 0;
@@ -113,6 +116,7 @@ public class UploadAction extends ActionSupport{
             out.println("<script type=\"text/javascript\">");    
             out.println("window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + "/articleImage/"+String.valueOf(article_ID)+"/" + fileName + "','')");    
             out.println("</script>");  
+            System.err.print("成功");
             return null;
         } catch (FileNotFoundException ex) {
             Logger.getLogger(UploadAction.class.getName()).log(Level.SEVERE, null, ex);
