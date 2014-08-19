@@ -43,19 +43,19 @@ public class UploadAction extends ActionSupport{
             
             is = new FileInputStream(upload);
             String uploadPath = ServletActionContext.getServletContext().getRealPath("articleImage")+"\\"+String.valueOf(article_ID);
-            System.out.print("uploadPath:"+uploadPath);
+            System.err.print("uploadPath:"+uploadPath);
             String fileName = java.util.UUID.randomUUID().toString();  
             File dir = new File(uploadPath);
-            System.out.print("准备创建文件夹");
+            System.err.print("准备创建文件夹");
             if(!dir.exists())
                 dir.mkdir();
-            System.out.print("创建目录完成");
+            System.err.print("创建目录完成");
             fileName += uploadFileName.substring(uploadFileName.length() - 4);
             File toFile = new File(uploadPath+"\\"+fileName);
-            System.out.print("创建文件");
+            System.err.print("创建文件");
             if(!toFile.exists())
                 toFile.createNewFile();
-            System.out.print("创建文件完成");
+            System.err.print("创建文件完成");
             OutputStream os = new FileOutputStream(toFile);
             byte[] buffer = new byte[1024];
             int length = 0;
@@ -71,7 +71,7 @@ public class UploadAction extends ActionSupport{
             out.println("<script type=\"text/javascript\">");    
             out.println("window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + "/articleImage/"+String.valueOf(article_ID)+"/" + fileName + "','')");    
             out.println("</script>");  
-            System.out.print("成功");
+            System.err.print("成功");
             return SUCCESS;
         } catch (FileNotFoundException ex) {
             Logger.getLogger(UploadAction.class.getName()).log(Level.SEVERE, null, ex);
