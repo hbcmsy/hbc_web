@@ -21,6 +21,7 @@ public class ShowAction extends ActionSupport{
     Article article;
     public String show(){
         article = new ArticleService().getAreticle(article_ID);
+        System.out.print("查看 action.showAction");
         return "show";
     }
 
