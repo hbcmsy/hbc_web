@@ -91,19 +91,22 @@ public class UploadAction extends ActionSupport{
             HttpServletRequest request = ServletActionContext.getRequest();
             article_ID =(int)request.getSession().getAttribute("article_ID");
             is = new FileInputStream(upload);
-            String uploadPath = ServletActionContext.getServletContext().getRealPath("articleImage")+separator+String.valueOf(article_ID);
+            String uploadPath = ServletActionContext.getServletContext().getRealPath("articleImage")+separator+String.valueOf(article_ID)+separator;
             System.err.println("uploadPath:"+uploadPath);
             String fileName = java.util.UUID.randomUUID().toString(); 
             File dir = new File(uploadPath);
             System.err.printf("准备创建文件夹 ");
-            if(!dir.exists())
-                dir.mkdirs();
-            System.err.println("创建目录:"+uploadPath);
+            if(!dir.exists()){
+            	dir.mkdirs();
+            	System.err.println("创建目录:"+uploadPath);
+            }
             fileName += uploadFileName.substring(uploadFileName.length() - 4);
             File toFile = new File(uploadPath,fileName);
             System.err.printf("创建文件"+toFile.toString());
-            if(!toFile.exists())
-                toFile.createNewFile();
+            if(!toFile.exists()){
+            	System.err.printf("创建文件ing");
+            	toFile.createNewFile();
+            }
             System.err.printf("创建文件完成");
             OutputStream os = new FileOutputStream(toFile);
             byte[] buffer = new byte[1024];
