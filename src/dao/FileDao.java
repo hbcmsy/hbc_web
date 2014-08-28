@@ -3,16 +3,15 @@ package dao;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import common.SqlHelper;
 import model.File;
-import model.User;
+
+import common.SqlHelper;
 
 public class FileDao {
 	public File getFile(int ID){
@@ -50,13 +49,12 @@ public class FileDao {
 		FileInputStream fin = new FileInputStream(file);
 		ByteBuffer bbf = ByteBuffer.allocate((int)file.length());
 		byte[] array = new byte[1024];
-		int offset = 0,length = 0;
+		int length = 0;
 		while((length=fin.read(array))>0){
 			if(length!=1024)
 				bbf.put(array,0,length);
 			else
 				bbf.put(array);
-			offset+=length;
 		}
 		fin.close();
 		return bbf.array();
