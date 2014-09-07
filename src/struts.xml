@@ -22,6 +22,7 @@
 		</action>
 		<action name="UploadAction" class="action.UploadAction">
 			<result name="success">/msg.jsp</result>
+			<result name="listImage">/edit/imagesList.jsp</result>
 		</action>
 	</package>
 </struts>

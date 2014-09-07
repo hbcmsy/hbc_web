@@ -22,8 +22,17 @@ public class Title {
     Timestamp article_creat_timestamp;
     Timestamp article_edite_timestamp;
     char article_state;
+    String article_image;
 
-    public int getArticle_ID() {
+    public String getArticle_image() {
+		return article_image;
+	}
+
+	public void setArticle_image(String article_image) {
+		this.article_image = article_image;
+	}
+
+	public int getArticle_ID() {
         return article_ID;
     }
 

@@ -13,6 +13,7 @@ import java.sql.Timestamp;
  * @author Administrator
  */
 public class Article {
+	
     int article_ID;
     String article_title;
     String article_category;
@@ -25,8 +26,17 @@ public class Article {
     char article_save_location;
     String article_path;
     String article_text;
+    String article_image;
 
-    public char getArticle_state() {
+    public String getArticle_image() {
+		return article_image;
+	}
+
+	public void setArticle_image(String article_image) {
+		this.article_image = article_image;
+	}
+
+	public char getArticle_state() {
         return article_state;
     }
 

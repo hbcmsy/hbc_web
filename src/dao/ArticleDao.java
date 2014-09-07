@@ -32,7 +32,7 @@ public class ArticleDao {
             con = SqlHelper.connect();
             String sql = "INSERT INTO hbc_article (article_title, article_author, article_editor, article_author_name,"
                     + " article_creat_timestamp,article_edite_timestamp, article_save_location, article_path,"
-                    + " article_text, article_state,article_category) VALUES (?,?,?,?,?,?,?,?,?,?,?)";// (2)写sql语句
+                    + " article_text, article_state,article_category,article_image) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";// (2)写sql语句
             ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);// (3)建立预处理
             ps.setString(1,article.getArticle_title());
             ps.setInt(2,article.getArticle_author());
@@ -45,6 +45,7 @@ public class ArticleDao {
             ps.setString(9,article.getArticle_text());
             ps.setString(10,article.getArticle_state()+"");
             ps.setString(11,article.getArticle_category());
+            ps.setString(12, article.getArticle_image());
             
             ps.executeUpdate();
             int id = -1;
@@ -86,7 +87,7 @@ public class ArticleDao {
             String sql = "UPDATE hbc_article SET article_title = ?, article_author = ?, "
                     + "article_editor = ?, article_author_name = ?, article_creat_timestamp = ?"
                     + ",article_edite_timestamp = ?, article_save_location = ?"
-                    + ", article_path = ?, article_text = ?, article_state = ? ,article_category = ? where article_ID = ?";// (2)写sql语句
+                    + ", article_path = ?, article_text = ?, article_state = ? ,article_category = ?,article_image = ? where article_ID = ?";// (2)写sql语句
             ps = con.prepareStatement(sql);// (3)建立预处理
             ps.setString(1,article.getArticle_title());
             ps.setInt(2,article.getArticle_author());
@@ -99,7 +100,8 @@ public class ArticleDao {
             ps.setString(9,article.getArticle_text());
             ps.setString(10,article.getArticle_state()+"");
             ps.setString(11,article.getArticle_category());
-            ps.setInt(12, user_ID);
+            ps.setString(12, article.getArticle_image());
+            ps.setInt(13, user_ID);
             ps.executeUpdate();
             return true;
         }finally {// 4.释放资源
@@ -114,7 +116,7 @@ public class ArticleDao {
         try{
             con = SqlHelper.connect();
             String sql = "select article_ID,article_title, article_author, article_editor, article_author_name,"
-                    + " article_creat_timestamp,article_edite_timestamp,article_state,article_category from hbc_article";// (2)写sql语句
+                    + " article_creat_timestamp,article_edite_timestamp,article_state,article_category,article_image from hbc_article";// (2)写sql语句
             ps = con.prepareStatement(sql);// (3)建立预处理
             rs = ps.executeQuery();
             List<Title> list = new ArrayList<>();
@@ -129,6 +131,7 @@ public class ArticleDao {
                 title.setArticle_edite_timestamp(rs.getTimestamp(7));
                 title.setArticle_state(rs.getString(8).charAt(0));
                 title.setArticle_category(rs.getString(9));
+                title.setArticle_image(rs.getString(10));
                 list.add(title);
             }
             return list;
@@ -145,7 +148,7 @@ public class ArticleDao {
         try{
             con = SqlHelper.connect();
             String sql = "select article_ID,article_title, article_author, article_editor, article_author_name,"
-                    + " article_creat_timestamp,article_edite_timestamp,article_state,article_category from hbc_article where article_state = ?";// (2)写sql语句
+                    + " article_creat_timestamp,article_edite_timestamp,article_state,article_category,article_image from hbc_article where article_state = ?";// (2)写sql语句
             ps = con.prepareStatement(sql);// (3)建立预处理
             ps.setString(1, state+"");
             rs = ps.executeQuery();
@@ -161,6 +164,7 @@ public class ArticleDao {
                 title.setArticle_edite_timestamp(rs.getTimestamp(7));
                 title.setArticle_state(rs.getString(8).charAt(0));
                 title.setArticle_category(rs.getString(9));
+                title.setArticle_image(rs.getString(10));
                 list.add(title);
             }
             return list;
@@ -178,7 +182,7 @@ public class ArticleDao {
             con = SqlHelper.connect();
             String sql = "select article_ID,article_title, article_author, article_editor,"
                     + "article_author_name,article_creat_timestamp,article_edite_timestamp,"
-                    + "article_state,article_category from hbc_article  where article_state = ? and article_author_name = ?";// (2)写sql语句
+                    + "article_state,article_category ,article_image from hbc_article  where article_state = ? and article_author_name = ?";// (2)写sql语句
             ps = con.prepareStatement(sql);// (3)建立预处理
             ps.setString(1,state+"");
             ps.setString(2,authorName);
@@ -195,6 +199,7 @@ public class ArticleDao {
                 title.setArticle_edite_timestamp(rs.getTimestamp(7));
                 title.setArticle_state(rs.getString(8).charAt(0));
                 title.setArticle_category(rs.getString(9));
+                title.setArticle_image(rs.getString(10));
                 list.add(title);
             }
             return list;
@@ -212,7 +217,7 @@ public class ArticleDao {
             con = SqlHelper.connect();
             String sql = "select article_ID,article_title, article_author, article_editor,"
                     + "article_author_name,article_creat_timestamp,article_edite_timestamp,"
-                    + "article_state,article_category from hbc_article  where article_state = ? and article_author = ?";// (2)写sql语句
+                    + "article_state,article_category ,article_image from hbc_article  where article_state = ? and article_author = ?";// (2)写sql语句
             ps = con.prepareStatement(sql);// (3)建立预处理
             ps.setString(1,state+"");
             ps.setInt(2,author_ID);
@@ -229,6 +234,7 @@ public class ArticleDao {
                 title.setArticle_edite_timestamp(rs.getTimestamp(7));
                 title.setArticle_state(rs.getString(8).charAt(0));
                 title.setArticle_category(rs.getString(9));
+                title.setArticle_image(rs.getString(10));
                 list.add(title);
             }
             return list;
@@ -246,7 +252,7 @@ public class ArticleDao {
             con = SqlHelper.connect();
             String sql = "select article_ID,article_title, article_author, article_editor,"
                     + "article_author_name,article_creat_timestamp,article_edite_timestamp,"
-                    + "article_state,article_category from hbc_article  where article_author = ?";// (2)写sql语句
+                    + "article_state,article_category,article_image from hbc_article  where article_author = ?";// (2)写sql语句
             ps = con.prepareStatement(sql);// (3)建立预处理
             ps.setString(1,authorName);
             rs = ps.executeQuery();
@@ -262,6 +268,7 @@ public class ArticleDao {
                 title.setArticle_edite_timestamp(rs.getTimestamp(7));
                 title.setArticle_state(rs.getString(8).charAt(0));
                 title.setArticle_category(rs.getString(9));
+                title.setArticle_image(rs.getString(10));
                 list.add(title);
             }
             return list;
@@ -279,7 +286,7 @@ public class ArticleDao {
             con = SqlHelper.connect();
             String sql = "select article_ID,article_title, article_author, article_editor,"
                     + "article_author_name,article_creat_timestamp,article_edite_timestamp,"
-                    + "article_state,article_category from hbc_article  where article_author = ?";// (2)写sql语句
+                    + "article_state,article_category,article_image from hbc_article  where article_author = ?";// (2)写sql语句
             ps = con.prepareStatement(sql);// (3)建立预处理
             ps.setInt(1,author_ID);
             rs = ps.executeQuery();
@@ -295,6 +302,7 @@ public class ArticleDao {
                 title.setArticle_edite_timestamp(rs.getTimestamp(7));
                 title.setArticle_state(rs.getString(8).charAt(0));
                 title.setArticle_category(rs.getString(9));
+                title.setArticle_image(rs.getString(10));
                 list.add(title);
             }
             return list;
@@ -312,7 +320,7 @@ public class ArticleDao {
             con = SqlHelper.connect();
             String sql = "select article_ID,article_title, article_author, article_editor,"
                     + "article_author_name,article_creat_timestamp,article_edite_timestamp,"
-                    + "article_state,article_category from hbc_article  where article_editor = ? and article_state = ?";// (2)写sql语句
+                    + "article_state,article_category,article_image from hbc_article  where article_editor = ? and article_state = ?";// (2)写sql语句
             ps = con.prepareStatement(sql);// (3)建立预处理
             ps.setInt(1,editor_ID);
             ps.setString(2,state+"");
@@ -329,6 +337,7 @@ public class ArticleDao {
                 title.setArticle_edite_timestamp(rs.getTimestamp(7));
                 title.setArticle_state(rs.getString(8).charAt(0));
                 title.setArticle_category(rs.getString(9));
+                title.setArticle_image(rs.getString(10));
                 list.add(title);
             }
             return list;
@@ -346,7 +355,7 @@ public class ArticleDao {
             con = SqlHelper.connect();
             String sql = "select article_ID,article_title, article_author, article_editor,"
                     + "article_author_name,article_creat_timestamp,article_edite_timestamp,"
-                    + "article_state,article_category from hbc_article  where article_editor = ?";// (2)写sql语句
+                    + "article_state,article_category,article_image from hbc_article  where article_editor = ?";// (2)写sql语句
             ps = con.prepareStatement(sql);// (3)建立预处理
             ps.setInt(1,editor_ID);
             rs = ps.executeQuery();
@@ -362,6 +371,7 @@ public class ArticleDao {
                 title.setArticle_edite_timestamp(rs.getTimestamp(7));
                 title.setArticle_state(rs.getString(8).charAt(0)); 
                 title.setArticle_category(rs.getString(9));
+                title.setArticle_image(rs.getString(10));
                 list.add(title);
             }
             return list;
@@ -395,6 +405,7 @@ public class ArticleDao {
                 article.setArticle_state(rs.getString("article_state").charAt(0));
                 article.setArticle_title(rs.getString("article_title"));
                 article.setArticle_category(rs.getString("article_category"));
+                article.setArticle_image(rs.getString("article_image"));
             }
             return article;
         }finally {// 4.释放资源
