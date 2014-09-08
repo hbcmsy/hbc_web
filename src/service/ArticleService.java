@@ -8,11 +8,13 @@ package service;
 
 import common.Evn;
 import dao.ArticleDao;
+
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import model.Article;
 import model.Title;
 
@@ -168,6 +170,29 @@ public class ArticleService {
         } catch (SQLException ex) {
             Logger.getLogger(ArticleService.class.getName()).log(Level.SEVERE, null, ex);
             return false;
+        }
+    }
+    
+    /*
+     * 
+     */
+    public List<Title> getArticleList(char flag,int id,String category,Evn.ARTICLE state){
+    	try {
+            switch(state){
+                case USE:
+                    return new ArticleDao().getArticleList(flag,id,category,'u');
+                case DELETE:
+                    return new ArticleDao().getArticleList(flag,id,category,'d');
+                case EDIT:
+                    return new ArticleDao().getArticleList(flag,id,category,'e');
+                case ALL:
+                    return new ArticleDao().getArticleList(flag,id,category,'a');
+                default:
+                    return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticleService.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
 }

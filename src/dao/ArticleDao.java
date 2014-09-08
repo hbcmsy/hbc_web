@@ -109,6 +109,40 @@ public class ArticleDao {
             SqlHelper.closeConneciton(con);  
 	}
     }
+    public Article getArticle(int article_ID)throws SQLException{
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            con = SqlHelper.connect();
+            String sql = "select * from hbc_article  where article_ID = ?";// (2)写sql语句
+            ps = con.prepareStatement(sql);// (3)建立预处理
+            ps.setInt(1,article_ID);
+            rs = ps.executeQuery();
+            Article article = new Article();
+            while(rs.next()){
+                article.setArticle_ID(article_ID);
+                article.setArticle_author(rs.getInt("article_author"));
+                article.setArticle_editor(rs.getInt("article_editor"));
+                article.setArticle_author_name(rs.getString("article_author_name"));
+                article.setArticle_creat_timestamp(rs.getTimestamp("article_creat_timestamp"));
+                article.setArticle_edite_timestamp(rs.getTimestamp("article_edite_timestamp"));
+                article.setArticle_save_location(rs.getString("article_save_location").charAt(0));
+                article.setArticle_path(rs.getString("article_path"));
+                article.setArticle_text(rs.getString("article_text"));
+                article.setArticle_state(rs.getString("article_state").charAt(0));
+                article.setArticle_title(rs.getString("article_title"));
+                article.setArticle_category(rs.getString("article_category"));
+                article.setArticle_image(rs.getString("article_image"));
+            }
+            return article;
+        }finally {// 4.释放资源
+            SqlHelper.closeResult(rs);
+            SqlHelper.closePreparedStatement(ps);
+            SqlHelper.closeConneciton(con);  
+        }
+    }
+
     public List<Title> getArticleList()throws SQLException{
         Connection con = null;
         PreparedStatement ps = null;
@@ -312,7 +346,8 @@ public class ArticleDao {
             SqlHelper.closeConneciton(con);  
 	}
     }
-     public List<Title> getArticleListByEditor(int editor_ID,char state)throws  SQLException{
+    
+    public List<Title> getArticleListByEditor(int editor_ID,char state)throws  SQLException{
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -379,39 +414,69 @@ public class ArticleDao {
             SqlHelper.closeResult(rs);
             SqlHelper.closePreparedStatement(ps);
             SqlHelper.closeConneciton(con);  
-	}
+        }
     }
-    public Article getArticle(int article_ID)throws SQLException{
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try{
-            con = SqlHelper.connect();
-            String sql = "select * from hbc_article  where article_ID = ?";// (2)写sql语句
-            ps = con.prepareStatement(sql);// (3)建立预处理
-            ps.setInt(1,article_ID);
-            rs = ps.executeQuery();
-            Article article = new Article();
-            while(rs.next()){
-                article.setArticle_ID(article_ID);
-                article.setArticle_author(rs.getInt("article_author"));
-                article.setArticle_editor(rs.getInt("article_editor"));
-                article.setArticle_author_name(rs.getString("article_author_name"));
-                article.setArticle_creat_timestamp(rs.getTimestamp("article_creat_timestamp"));
-                article.setArticle_edite_timestamp(rs.getTimestamp("article_edite_timestamp"));
-                article.setArticle_save_location(rs.getString("article_save_location").charAt(0));
-                article.setArticle_path(rs.getString("article_path"));
-                article.setArticle_text(rs.getString("article_text"));
-                article.setArticle_state(rs.getString("article_state").charAt(0));
-                article.setArticle_title(rs.getString("article_title"));
-                article.setArticle_category(rs.getString("article_category"));
-                article.setArticle_image(rs.getString("article_image"));
-            }
-            return article;
-        }finally {// 4.释放资源
-            SqlHelper.closeResult(rs);
-            SqlHelper.closePreparedStatement(ps);
-            SqlHelper.closeConneciton(con);  
-	}
+    /*
+     * 参数flag 表示查询的是所有(a),根据作者(u).根据最后修改者(e) 如果 flag是a那么 id=-1
+     * category 为文章分类 若不分category 则category为""
+     * state 是文章状态 u e d a
+     */
+    public List<Title> getArticleList(char flag,int id,String category,char state) throws SQLException{
+    	String sql = "select article_ID,article_title, article_author, article_editor,"
+    			+ "article_author_name,article_creat_timestamp,article_edite_timestamp,"
+    			+ "article_state,article_category ,article_image from hbc_article article_category like ?";
+    	switch(flag){
+    		case 'a':
+    			break;
+    		case 'u':
+    			sql+="and article_author=?";
+    			break;
+    		case 'e':
+    			sql+="and article_editor=?";
+    			break;
+			default:
+				return null;
+    	}
+    	if(state!='a')
+    		sql+="and article_state=?";
+    	/*
+    	 * sql语句构造完毕
+    	 */
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try{
+		    con = SqlHelper.connect();
+		    ps = con.prepareStatement(sql);// (3)建立预处理
+	    	ps.setString(1,category+"%");
+		    if(flag=='a'){
+		    	ps.setString(2,state+"");
+		    }
+		    else{
+		    	ps.setInt(2,id);
+		    	ps.setString(3,state+"");
+		    }
+		    rs = ps.executeQuery();
+		    List<Title> list = new ArrayList<>();
+		    while(rs.next()){
+		        Title title =new Title();
+		        title.setArticle_ID(rs.getInt(1));
+		        title.setArticle_title(rs.getString(2));
+		        title.setArticle_author(rs.getInt(3));
+		        title.setArticle_editor(rs.getInt(4));
+		        title.setArticle_author_name(rs.getString(5));
+		        title.setArticle_creat_timestamp(rs.getTimestamp(6));
+		        title.setArticle_edite_timestamp(rs.getTimestamp(7));
+		        title.setArticle_state(rs.getString(8).charAt(0));
+		        title.setArticle_category(rs.getString(9));
+		        title.setArticle_image(rs.getString(10));
+		        list.add(title);
+		    }
+		    return list;
+		}finally {// 4.释放资源
+		        SqlHelper.closeResult(rs);
+		        SqlHelper.closePreparedStatement(ps);
+		        SqlHelper.closeConneciton(con);  
+		}
     }
 }

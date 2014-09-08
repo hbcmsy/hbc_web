@@ -13,21 +13,34 @@ import service.ArticleService;
 
 @SuppressWarnings("serial")
 public class EditAction extends ActionSupport{
-    String editor;
+	int article_ID;
+    
+    /*edit*/
+    String edit_title;
+    String edit_category;
+    String edit_text;
+    String edit_image;
+    /*add*/
+    
+    /*
+     * list 获取当前用户后 判断权限 按照 state的值输出 列表中文章的类别
+     * 初始值为已经发布的公告
+     * 如果usr为真 则只输出用户自己的文章 a(all) u(author) e(editor)
+     */
     PageList<Title> plist;
     int pageNo=1;
-    int article_ID;
-    String title;
-    String category;
-    String text;
-    Evn.ARTICLE state = Evn.ARTICLE.ALL;
-    String STATE = "ALL";    
+    char usr = 'a';
+    //输入量
+    Evn.ARTICLE state = Evn.ARTICLE.USE;
+    String STATE = "ALL";
+    String CATEGORY = "g";
     public String list(){
         HttpServletRequest request = ServletActionContext.getRequest();
         User user =(User)request.getSession().getAttribute("userInfo");
         if(user == null)
             return "list";
-        List<Title> list = new ArticleService().getArticleList(user.getUser_ID(),this.getState(STATE));
+        //获取用户名
+        List<Title> list = new ArticleService().getArticleList(usr, user.getUser_ID(), CATEGORY, this.getState(STATE));
         plist = new PageList<>(list,list.size(),30,pageNo,"hehe");
         return "list";
     }
@@ -186,5 +199,17 @@ public class EditAction extends ActionSupport{
     public void setCategory(String category) {
         this.category = category;
     }
+	public char getUsr() {
+		return usr;
+	}
+	public void setUsr(char usr) {
+		this.usr = usr;
+	}
+	public String getCATEGORY() {
+		return CATEGORY;
+	}
+	public void setCATEGORY(String cATEGORY) {
+		CATEGORY = cATEGORY;
+	}
     
 }
