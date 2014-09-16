@@ -145,12 +145,16 @@ public class UploadAction extends ActionSupport{
     	String separator = props.getProperty("file.separator");
     	String path = ServletActionContext.getServletContext().getRealPath("articleImage")+separator+String.valueOf(article_ID)+separator;
     	File file = new File(path);
-    	File list[] = file.listFiles();
-    	List<String> imageList=  new ArrayList<String>();
-    	for(int i = 0 ; i < list.length;i++)
-    		if(list[i].isFile())
-    			imageList.add(list[i].getName());
-    	imagesList = new PageList<String>(imageList, 5, imageList.size(),imagePageNo,"heh");
+    	if(file.exists()){
+    		File list[] = file.listFiles();
+        	List<String> imageList=  new ArrayList<String>();
+        	for(int i = 0 ; i < list.length;i++)
+        		if(list[i].isFile())
+        			imageList.add(list[i].getName());
+        	imagesList = new PageList<String>(imageList, 5, imageList.size(),imagePageNo,"heh");	
+    	}else{
+    		imagesList=null;
+    	}
     	return "listImage";
     }
 

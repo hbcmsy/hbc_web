@@ -15,7 +15,7 @@ import service.ArticleService;
 public class EditAction extends ActionSupport{
 	int article_ID;
     
-    /*edit*/
+    /*edit add */
     String edit_title;
     String edit_category;
     String edit_text;
@@ -29,11 +29,11 @@ public class EditAction extends ActionSupport{
      */
     PageList<Title> plist;
     int pageNo=1;
-    char usr = 'a';
     //输入量
     Evn.ARTICLE state = Evn.ARTICLE.USE;
     String STATE = "ALL";
     String CATEGORY = "g";
+    char usr = 'a';
     public String list(){
         HttpServletRequest request = ServletActionContext.getRequest();
         User user =(User)request.getSession().getAttribute("userInfo");
@@ -55,7 +55,7 @@ public class EditAction extends ActionSupport{
             return this.list();
         ArticleService as = new ArticleService();
         article_ID = as.addArticle(" "," "," ",user.getUser_ID(),Evn.ARTICLE_SAVE_LOCATION.DATABASE);
-        title=text="待编辑";
+        edit_title=edit_text="待编辑";
         return "add";
     }
     public String edit(){
@@ -69,9 +69,10 @@ public class EditAction extends ActionSupport{
             return this.list();
         ArticleService as = new ArticleService();
         Article article = as.getAreticle(article_ID);
-        title = article.getArticle_title();
-        text = article.getArticle_text();
-        category = article.getArticle_category();
+        edit_title = article.getArticle_title();
+        edit_text = article.getArticle_text();
+        edit_category = article.getArticle_category();
+        edit_image = article.getArticle_image();
         return "edit";
         
     }
@@ -97,9 +98,10 @@ public class EditAction extends ActionSupport{
             return this.list();
         ArticleService as = new ArticleService();
         Article article = as.getAreticle(article_ID);
-        article.setArticle_category(category);
-        article.setArticle_title(title);
-        article.setArticle_text(text);
+        article.setArticle_category(edit_category);
+        article.setArticle_title(edit_title);
+        article.setArticle_text(edit_text);
+        article.setArticle_image(edit_image);
         as.changleArticle(article, article.getArticle_ID(),user.getUser_ID());
         return this.list();
     }
@@ -136,14 +138,7 @@ public class EditAction extends ActionSupport{
 	public void setSTATE(String sTATE) {
 		STATE = sTATE;
 	}
-	public String getEditor() {
-        return editor;
-    }
-
-    public void setEditor(String editor) {
-        this.editor = editor;
-    }
-
+	
     public PageList<Title> getPlist() {
         return plist;
     }
@@ -167,23 +162,6 @@ public class EditAction extends ActionSupport{
     public void setState(Evn.ARTICLE state) {
         this.state = state;
     }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public int getArticle_ID() {
         return article_ID;
     }
@@ -192,13 +170,6 @@ public class EditAction extends ActionSupport{
         this.article_ID = article_ID;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
 	public char getUsr() {
 		return usr;
 	}
@@ -210,6 +181,30 @@ public class EditAction extends ActionSupport{
 	}
 	public void setCATEGORY(String cATEGORY) {
 		CATEGORY = cATEGORY;
+	}
+	public String getEdit_title() {
+		return edit_title;
+	}
+	public void setEdit_title(String edit_title) {
+		this.edit_title = edit_title;
+	}
+	public String getEdit_category() {
+		return edit_category;
+	}
+	public void setEdit_category(String edit_category) {
+		this.edit_category = edit_category;
+	}
+	public String getEdit_text() {
+		return edit_text;
+	}
+	public void setEdit_text(String edit_text) {
+		this.edit_text = edit_text;
+	}
+	public String getEdit_image() {
+		return edit_image;
+	}
+	public void setEdit_image(String edit_image) {
+		this.edit_image = edit_image;
 	}
     
 }

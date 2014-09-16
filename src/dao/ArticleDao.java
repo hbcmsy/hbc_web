@@ -424,15 +424,15 @@ public class ArticleDao {
     public List<Title> getArticleList(char flag,int id,String category,char state) throws SQLException{
     	String sql = "select article_ID,article_title, article_author, article_editor,"
     			+ "article_author_name,article_creat_timestamp,article_edite_timestamp,"
-    			+ "article_state,article_category ,article_image from hbc_article article_category like ?";
+    			+ "article_state,article_category ,article_image from hbc_article where article_category like ? ";
     	switch(flag){
     		case 'a':
     			break;
     		case 'u':
-    			sql+="and article_author=?";
+    			sql+="and article_author=? ";
     			break;
     		case 'e':
-    			sql+="and article_editor=?";
+    			sql+="and article_editor=? ";
     			break;
 			default:
 				return null;
@@ -450,11 +450,17 @@ public class ArticleDao {
 		    ps = con.prepareStatement(sql);// (3)建立预处理
 	    	ps.setString(1,category+"%");
 		    if(flag=='a'){
-		    	ps.setString(2,state+"");
+		    	if(state!='a')
+		    		ps.setString(2,state+"");
 		    }
 		    else{
-		    	ps.setInt(2,id);
-		    	ps.setString(3,state+"");
+		    	if(state!='a'){
+		    		ps.setInt(2,id);
+		    		ps.setString(3,state+"");
+		    	}else
+		    	{
+		    		ps.setInt(2,id);
+		    	}
 		    }
 		    rs = ps.executeQuery();
 		    List<Title> list = new ArrayList<>();
