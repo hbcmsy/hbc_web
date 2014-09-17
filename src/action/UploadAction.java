@@ -42,52 +42,6 @@ public class UploadAction extends ActionSupport{
     
     PageList<String> imagesList;
     int imagePageNo=1;
-    public String execute(){
-    	System.err.print("execute start");
-    	InputStream is = null;
-        try {
-            HttpServletRequest request = ServletActionContext.getRequest();
-            article_ID =(int)request.getSession().getAttribute("article_ID");
-            
-            is = new FileInputStream(upload);
-            String uploadPath = ServletActionContext.getServletContext().getRealPath("articleImage")+"\\"+String.valueOf(article_ID);
-            System.err.print("uploadPath:"+uploadPath);
-            String fileName = java.util.UUID.randomUUID().toString();  
-            File dir = new File(uploadPath);
-            System.err.print("准备创建文件夹");
-            if(!dir.exists())
-                dir.mkdir();
-            System.err.print("创建目录完成");
-            fileName += uploadFileName.substring(uploadFileName.length() - 4);
-            File toFile = new File(uploadPath+"\\"+fileName);
-            System.err.print("创建文件");
-            if(!toFile.exists())
-                toFile.createNewFile();
-            System.err.print("创建文件完成");
-            OutputStream os = new FileOutputStream(toFile);
-            byte[] buffer = new byte[1024];
-            int length = 0;
-            while ((length = is.read(buffer)) > 0) {
-                os.write(buffer, 0, length);
-            }   is.close();
-            os.close();
-            is.close();
-            HttpServletResponse response = ServletActionContext.getResponse();  
-            response.setCharacterEncoding("UTF-8");  
-            PrintWriter out = response.getWriter();  
-            String callback = ServletActionContext.getRequest().getParameter("CKEditorFuncNum");    
-            out.println("<script type=\"text/javascript\">");    
-            out.println("window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + "/articleImage/"+String.valueOf(article_ID)+"/" + fileName + "','')");    
-            out.println("</script>");  
-            System.err.print("成功");
-            return SUCCESS;
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(UploadAction.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(UploadAction.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
     public String image() {
     	Properties props=System.getProperties();
     	String separator = props.getProperty("file.separator");
