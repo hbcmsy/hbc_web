@@ -4,7 +4,7 @@
 "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<constant name="struts.i18n.encoding" value="utf-8" />
-	<package name="hbc" extends="struts-default">
+	<package name="hbc" extends="json-default">
 		<action name="UserAction" class="action.UserAction">
 			<result name="showUser">/manager/userbar.jsp</result>
 			<result name="showUserList">/manager/userList.jsp</result>
