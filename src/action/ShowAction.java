@@ -6,7 +6,11 @@
 
 package action;
 
+
 import java.util.List;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -24,7 +28,7 @@ import service.ArticleService;
 public class ShowAction extends ActionSupport{
     int article_ID;
     Article article;
-    
+    String json;
     PageList<Title> plist;
     int pageNo=1;
     public String show(){
@@ -42,7 +46,19 @@ public class ShowAction extends ActionSupport{
     	plist = new PageList<>(list,list.size(),10,pageNo,"hehe");
     	return "listInfo";
     }
-    
+    public String ListAnimal(){
+    	List<Title> list = new ArticleService().getArticleList(Evn.ARTICLE.USE);
+    	JSONArray jsonArray = new JSONArray();
+    	for(Title a:list){
+    		JSONObject json = new JSONObject();
+    		json.put("ID", a.getArticle_ID());
+        	json.put("title",a.getArticle_title());
+        	json.put("img", a.getArticle_image());
+        	jsonArray.add(json);
+    	}
+    	json = jsonArray.toString();    	        	
+    	return "listImg";
+    }
 
     public PageList<Title> getPlist() {
 		return plist;
@@ -71,4 +87,10 @@ public class ShowAction extends ActionSupport{
     public void setArticle(Article article) {
         this.article = article;
     }
+	public String getJson() {
+		return json;
+	}
+	public void setJson(String json) {
+		this.json = json;
+	}
 }
