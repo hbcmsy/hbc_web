@@ -42,12 +42,38 @@ public class ShowAction extends ActionSupport{
         return "info";
     }
     public String listInfo(){
-    	List<Title> list = new ArticleService().getArticleList('a',-1,"g",Evn.ARTICLE.USE);
+    	List<Title> list = new ArticleService().getArticleList(Evn.CATEGORY.ANNOUNCMENT,Evn.ARTICLE.USE);
     	plist = new PageList<>(list,list.size(),10,pageNo,"hehe");
     	return "listInfo";
     }
     public String ListAnimal(){
-    	List<Title> list = new ArticleService().getArticleList(Evn.ARTICLE.USE);
+    	List<Title> list = new ArticleService().getArticleList(Evn.CATEGORY.ANIMAL,Evn.ARTICLE.USE);
+    	JSONArray jsonArray = new JSONArray();
+    	for(Title a:list){
+    		JSONObject json = new JSONObject();
+    		json.put("ID", a.getArticle_ID());
+        	json.put("title",a.getArticle_title());
+        	json.put("img", a.getArticle_image());
+        	jsonArray.add(json);
+    	}
+    	json = jsonArray.toString();    	        	
+    	return "listImg";
+    }
+    public String ListHistory(){
+    	List<Title> list = new ArticleService().getArticleList(Evn.CATEGORY.HISTORY,Evn.ARTICLE.USE);
+    	JSONArray jsonArray = new JSONArray();
+    	for(Title a:list){
+    		JSONObject json = new JSONObject();
+    		json.put("ID", a.getArticle_ID());
+        	json.put("title",a.getArticle_title());
+        	json.put("img", a.getArticle_image());
+        	jsonArray.add(json);
+    	}
+    	json = jsonArray.toString();    	        	
+    	return "listImg";
+    }
+    public String ListExpand(){
+    	List<Title> list = new ArticleService().getArticleList(Evn.CATEGORY.EXPAND,Evn.ARTICLE.USE);
     	JSONArray jsonArray = new JSONArray();
     	for(Title a:list){
     		JSONObject json = new JSONObject();

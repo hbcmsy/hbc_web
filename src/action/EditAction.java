@@ -48,7 +48,6 @@ public class EditAction extends ActionSupport{
         HttpServletRequest request = ServletActionContext.getRequest();
         User user =(User)request.getSession().getAttribute("userInfo");
        
-        request.getSession().setAttribute("article_ID",article_ID);
         if(user==null)
             return this.list();
         if(user.getUser_authority()=='u')
@@ -56,6 +55,7 @@ public class EditAction extends ActionSupport{
         ArticleService as = new ArticleService();
         article_ID = as.addArticle(" "," "," ",user.getUser_ID(),Evn.ARTICLE_SAVE_LOCATION.DATABASE);
         edit_title=edit_text="待编辑";
+        request.getSession().setAttribute("article_ID",article_ID);
         return "add";
     }
     public String edit(){

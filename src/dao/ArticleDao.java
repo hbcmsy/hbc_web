@@ -418,7 +418,7 @@ public class ArticleDao {
     }
     /*
      * 参数flag 表示查询的是所有(a),根据作者(u).根据最后修改者(e) 如果 flag是a那么 id=-1
-     * category 为文章分类 若不分category 则category为""
+     * category 为文章分类 若不分category 则category为  g d l t
      * state 是文章状态 u e d a
      */
     public List<Title> getArticleList(char flag,int id,String category,char state) throws SQLException{

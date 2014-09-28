@@ -88,6 +88,20 @@ public class ArticleService {
             return null;
         }
     }
+    public List<Title> getArticleList(Evn.CATEGORY category,Evn.ARTICLE state){
+    	switch(category){
+    		case ANNOUNCMENT:
+    			 return this.getArticleList('a', -1, "g", state);
+    		case ANIMAL:
+    			return this.getArticleList('a', -1, "d", state);
+    		case HISTORY:
+    			return this.getArticleList('a', -1, "l", state);
+    		case EXPAND:
+    			return this.getArticleList('a', -1, "t", state);
+			default:
+				return null;
+    	}
+    }
     public int addArticle(Article article,int user_ID){
         try {
             return new ArticleDao().addArticle(article, user_ID);
