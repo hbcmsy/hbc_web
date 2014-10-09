@@ -42,6 +42,8 @@ public class UploadAction extends ActionSupport{
     
     PageList<String> imagesList;
     int imagePageNo=1;
+    
+    String image_ID;
     public String image() {
     	Properties props=System.getProperties();
     	String separator = props.getProperty("file.separator");
@@ -111,8 +113,23 @@ public class UploadAction extends ActionSupport{
     	}
     	return "listImage";
     }
+    public String deleteImage(){
+    	Properties props = System.getProperties();
+    	String separator = props.getProperty("file.separator");
+    	String path = ServletActionContext.getServletContext().getRealPath("articleImage")+separator+String.valueOf(article_ID)+separator;
+    	path+=image_ID;
+    	File file = new File(path);
+    	file.delete();
+    	return this.listImage();
+    }
 
-    public File getUpload() {
+    public String getImage_ID() {
+		return image_ID;
+	}
+	public void setImage_ID(String image_ID) {
+		this.image_ID = image_ID;
+	}
+	public File getUpload() {
         return upload;
     }
 

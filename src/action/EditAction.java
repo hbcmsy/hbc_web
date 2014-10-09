@@ -103,6 +103,7 @@ public class EditAction extends ActionSupport{
         article.setArticle_text(edit_text);
         article.setArticle_image(edit_image);
         as.changleArticle(article, article.getArticle_ID(),user.getUser_ID());
+        CATEGORY = article.getArticle_category();
         return this.list();
     }
     public String release(){
@@ -131,7 +132,7 @@ public class EditAction extends ActionSupport{
 			return Evn.ARTICLE.ALL;
     	}
     	 
-    } 
+    }
     public String getSTATE() {
 		return STATE;
 	}
