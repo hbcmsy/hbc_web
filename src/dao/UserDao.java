@@ -16,7 +16,7 @@ import java.util.List;
 import model.User;
 
 /**
- *
+ * 进行用户的增删改查过程
  * @author Administrator
  */
 public class UserDao {
@@ -26,8 +26,8 @@ public class UserDao {
         ResultSet rs = null;
         try{
             con = SqlHelper.connect();
-            String sql = "select * from hbc_user where user_ID=?";// (2)写sql语句
-            ps = con.prepareStatement(sql);// (3)建立预处理
+            String sql = "select * from hbc_user where user_ID=?";
+            ps = con.prepareStatement(sql);
             ps.setInt(1, ID);
             rs = ps.executeQuery();
             User data = new User();
@@ -38,7 +38,7 @@ public class UserDao {
                 data.setUser_name(rs.getString(4));
             }
             return data;
-        }finally {// 4.释放资源
+        }finally {
             SqlHelper.closeResult(rs);
             SqlHelper.closePreparedStatement(ps);
             SqlHelper.closeConneciton(con);  

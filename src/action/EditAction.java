@@ -1,46 +1,52 @@
 package action;
 
 import com.opensymphony.xwork2.ActionSupport;
+
 import common.Evn;
 import common.PageList;
+
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import model.Article;
 import model.Title;
 import model.User;
+
 import org.apache.struts2.ServletActionContext;
+
 import service.ArticleService;
 
+/**
+ * @author yyf
+ */
 @SuppressWarnings("serial")
 public class EditAction extends ActionSupport{
-	int article_ID;
+	int article_ID;								//用于各种action的文章ID的传参
     
-    /*edit add */
-    String edit_title;
+    String edit_title;							//修改和增加文章的时候的参数
     String edit_category;
     String edit_text;
     String edit_image;
-    /*add*/
+    
+    PageList<Title> plist;						//带分页的文章列表
+    int pageNo=1;								//文章的页码,初始值为1
     
     /*
      * list 获取当前用户后 判断权限 按照 state的值输出 列表中文章的类别
      * 初始值为已经发布的公告
      * 如果usr为真 则只输出用户自己的文章 a(all) u(author) e(editor)
      */
-    PageList<Title> plist;
-    int pageNo=1;
-    //输入量
-    Evn.ARTICLE state = Evn.ARTICLE.USE;
-    String STATE = "ALL";
-    String CATEGORY = "g";
+    Evn.ARTICLE state = Evn.ARTICLE.USE;		//设置查询文章的状态 初始为已发布的文章
+    String STATE = "all";						//查询文章时进行文章状态的传参 默认是查询所有文章
+    String CATEGORY = "g";						
     char usr = 'a';
     public String list(){
         HttpServletRequest request = ServletActionContext.getRequest();
-        User user =(User)request.getSession().getAttribute("userInfo");
+        User user =(User)request.getSession().getAttribute("userInfo");		//获取用户名
         if(user == null)
             return "list";
-        //获取用户名
-        List<Title> list = new ArticleService().getArticleList(usr, user.getUser_ID(), CATEGORY, this.getState(STATE));
+        List<Title> list = new ArticleService().getArticleList(ArticleService.getFlag(usr+""),user.getUser_ID(),Evn.getCATEGORY(CATEGORY),Evn.getARTICLE(STATE));
         plist = new PageList<>(list,list.size(),30,pageNo,"hehe");
         return "list";
     }
@@ -116,22 +122,6 @@ public class EditAction extends ActionSupport{
         ArticleService as = new ArticleService();
         as.changleAricleState(article_ID,Evn.ARTICLE.USE);
         return this.list();
-    }
-    Evn.ARTICLE getState(String STATE){
-    	switch(STATE.charAt(0))
-    	{
-    	case 'A':
-    		return Evn.ARTICLE.ALL;
-    	case 'U':
-    		return Evn.ARTICLE.USE;
-    	case 'E':
-    		return Evn.ARTICLE.EDIT;
-    	case 'D':
-    		return Evn.ARTICLE.DELETE;
-		default:
-			return Evn.ARTICLE.ALL;
-    	}
-    	 
     }
     public String getSTATE() {
 		return STATE;

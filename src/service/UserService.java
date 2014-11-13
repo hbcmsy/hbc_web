@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import model.User;
 
 /**
- *
+ * 进行用户模型的增删改查的服务的实现
  * @author Administrator
  */
 public class UserService {

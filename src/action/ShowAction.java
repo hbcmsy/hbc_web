@@ -26,11 +26,11 @@ import service.ArticleService;
  */
 @SuppressWarnings("serial")
 public class ShowAction extends ActionSupport{
-    int article_ID;
-    Article article;
-    String json;
-    PageList<Title> plist;
-    int pageNo=1;
+    int article_ID;										//文章ID 参数
+    Article article;									//文章内容 参数
+    String json;										//异步json 用来实现瀑布流
+    PageList<Title> plist;								//分页文章列表
+    int pageNo=1;										//页码
     public String show(){
         article = new ArticleService().getAreticle(article_ID);
         //System.out.print("查看 action.showAction");

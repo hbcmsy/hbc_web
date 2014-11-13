@@ -14,7 +14,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import model.Article;
 import model.Title;
 
@@ -23,86 +22,27 @@ import model.Title;
  * @author Administrator
  */
 public class ArticleService {
-    public Article getAreticle(int article_ID){
-        try {
-            return new ArticleDao().getArticle(article_ID);
-        } catch (SQLException ex) {
-            Logger.getLogger(ArticleService.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
+    public enum FLAG{AUTHOR,EDITOR,ALL};													//查找时对应底层的三种查询方式
+
+    public static FLAG getFlag(String flag){
+    	switch (flag.charAt(0)) {
+		case 'a':
+			return FLAG.ALL;
+		case 'e':
+			return FLAG.EDITOR;
+		case 'u':
+			return FLAG.AUTHOR;
+		case 'A':
+			return FLAG.ALL;
+		case 'E':
+			return FLAG.EDITOR;
+		case 'U':
+			return FLAG.AUTHOR;
+		default:
+			return null;
+		}
     }
-    public List<Title> getArticleList(Evn.ARTICLE state){
-        try {
-            switch(state){
-                case USE:
-                    return new ArticleDao().getArticleList('u');
-                case DELETE:
-                    return new ArticleDao().getArticleList('d');
-                case EDIT:
-                    return new ArticleDao().getArticleList('e');
-                case ALL:
-                    return new ArticleDao().getArticleList();
-                default:
-                    return null;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ArticleService.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-    public List<Title> getArticleList(int user_ID,Evn.ARTICLE state){
-        try {
-            switch(state){
-                case USE:
-                    return new ArticleDao().getArticleList(user_ID,'u');
-                case DELETE:
-                    return new ArticleDao().getArticleList(user_ID,'d');
-                case EDIT:
-                    return new ArticleDao().getArticleList(user_ID,'e');
-                case ALL:
-                    return new ArticleDao().getArticleList(user_ID);
-                default:
-                    return null;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ArticleService.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-    public List<Title> getArticleList(String name,Evn.ARTICLE state){
-        try {
-            switch(state){
-                case USE:
-                    return new ArticleDao().getArticleList(name,'u');
-                case DELETE:
-                    return new ArticleDao().getArticleList(name,'d');
-                case EDIT:
-                    return new ArticleDao().getArticleList(name,'e');
-                case ALL:
-                    return new ArticleDao().getArticleList(name);
-                default:
-                    return null;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ArticleService.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-    public List<Title> getArticleList(Evn.CATEGORY category,Evn.ARTICLE state){
-    	switch(category){
-    		case ANNOUNCMENT:
-    			 return this.getArticleList('a', -1, "g", state);
-    		case ANIMAL:
-    			return this.getArticleList('a', -1, "d", state);
-    		case HISTORY:
-    			return this.getArticleList('a', -1, "l", state);
-    		case EXPAND:
-    			return this.getArticleList('a', -1, "t", state);
-			default:
-				return null;
-    	}
-    }
-    public int addArticle(Article article,int user_ID){
+    public int addArticle(Article article,int user_ID){										
         try {
             return new ArticleDao().addArticle(article, user_ID);
         } catch (SQLException ex) {
@@ -186,21 +126,83 @@ public class ArticleService {
             return false;
         }
     }
-    
-    /*
-     * 
-     */
-    public List<Title> getArticleList(char flag,int id,String category,Evn.ARTICLE state){
+    public List<Title> getArticleList(Evn.CATEGORY category,Evn.ARTICLE state){
+    	return this.getArticleList(ArticleService.FLAG.ALL, -1,category, state);
+    }
+    public List<Title> getArticleList(ArticleService.FLAG flag,int id,Evn.CATEGORY category,Evn.ARTICLE state){
+    	char ch_flag = ' ';
+    	char ch_category = ' ';
     	try {
+            switch (category) {
+				case ANNOUNCMENT:
+					ch_category = 'g';
+					break;
+				case ANIMAL:
+					ch_category = 'd';
+					break;
+				case HISTORY:
+					ch_category = 'l';
+					break;
+				case EXPAND:
+					ch_category = 't';
+					break;
+				default:
+					break;
+			}
+            switch (flag) {
+			case AUTHOR:
+				ch_flag = 'u';
+				break;
+			case EDITOR:
+				ch_flag = 'e';
+				break;
+			case ALL:
+				ch_flag = 'a';
+				break;
+			default:
+				break;
+			}
+            switch(state){
+            case USE:
+                return new ArticleDao().getArticleList(ch_flag,id,ch_category,'u');
+            case DELETE:
+                return new ArticleDao().getArticleList(ch_flag,id,ch_category,'d');
+            case EDIT:
+                return new ArticleDao().getArticleList(ch_flag,id,ch_category,'e');
+            case ALL:
+                return new ArticleDao().getArticleList(ch_flag,id,ch_category,'a');
+            default:
+                return null;
+        }
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticleService.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    /**************************************************************************************************
+    											准备弃用
+    **************************************************************************************************/
+	public Article getAreticle(int article_ID){
+        try {
+            return new ArticleDao().getArticle(article_ID);
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticleService.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+	
+	
+    public List<Title> getArticleList(Evn.ARTICLE state){
+        try {
             switch(state){
                 case USE:
-                    return new ArticleDao().getArticleList(flag,id,category,'u');
+                    return new ArticleDao().getArticleList('u');
                 case DELETE:
-                    return new ArticleDao().getArticleList(flag,id,category,'d');
+                    return new ArticleDao().getArticleList('d');
                 case EDIT:
-                    return new ArticleDao().getArticleList(flag,id,category,'e');
+                    return new ArticleDao().getArticleList('e');
                 case ALL:
-                    return new ArticleDao().getArticleList(flag,id,category,'a');
+                    return new ArticleDao().getArticleList();
                 default:
                     return null;
             }
@@ -209,5 +211,46 @@ public class ArticleService {
             return null;
         }
     }
+    public List<Title> getArticleList(int user_ID,Evn.ARTICLE state){
+        try {
+            switch(state){
+                case USE:
+                    return new ArticleDao().getArticleList(user_ID,'u');
+                case DELETE:
+                    return new ArticleDao().getArticleList(user_ID,'d');
+                case EDIT:
+                    return new ArticleDao().getArticleList(user_ID,'e');
+                case ALL:
+                    return new ArticleDao().getArticleList(user_ID);
+                default:
+                    return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticleService.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    public List<Title> getArticleList(String name,Evn.ARTICLE state){
+        try {
+            switch(state){
+                case USE:
+                    return new ArticleDao().getArticleList(name,'u');
+                case DELETE:
+                    return new ArticleDao().getArticleList(name,'d');
+                case EDIT:
+                    return new ArticleDao().getArticleList(name,'e');
+                case ALL:
+                    return new ArticleDao().getArticleList(name);
+                default:
+                    return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticleService.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    /**************************************************************************************************************/
+    
+ 
 }
 
