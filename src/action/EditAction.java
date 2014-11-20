@@ -89,6 +89,9 @@ public class EditAction extends ActionSupport{
             return this.list();
         if(user.getUser_authority()=='u')
             return this.list();
+        Article article = new ArticleService().getAreticle(article_ID);
+        CATEGORY = article.getArticle_category();
+        STATE = article.getArticle_state()+"";
         new ArticleService().deleteArticle(article_ID);
         return list();
     }
@@ -110,6 +113,7 @@ public class EditAction extends ActionSupport{
         article.setArticle_image(edit_image);
         as.changleArticle(article, article.getArticle_ID(),user.getUser_ID());
         CATEGORY = article.getArticle_category();
+        STATE = article.getArticle_state()+"";
         return this.list();
     }
     public String release(){
@@ -121,6 +125,9 @@ public class EditAction extends ActionSupport{
             return this.list();
         ArticleService as = new ArticleService();
         as.changleAricleState(article_ID,Evn.ARTICLE.USE);
+        Article article = new ArticleService().getAreticle(article_ID);
+        CATEGORY = article.getArticle_category();
+        STATE = article.getArticle_state()+"";
         return this.list();
     }
     public String getSTATE() {
