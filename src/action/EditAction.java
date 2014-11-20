@@ -41,6 +41,7 @@ public class EditAction extends ActionSupport{
     String STATE = "all";						//查询文章时进行文章状态的传参 默认是查询所有文章
     String CATEGORY = "g";						
     char usr = 'a';
+    
     public String list(){
         HttpServletRequest request = ServletActionContext.getRequest();
         User user =(User)request.getSession().getAttribute("userInfo");		//获取用户名
@@ -53,7 +54,6 @@ public class EditAction extends ActionSupport{
     public String add(){
         HttpServletRequest request = ServletActionContext.getRequest();
         User user =(User)request.getSession().getAttribute("userInfo");
-       
         if(user==null)
             return this.list();
         if(user.getUser_authority()=='u')
