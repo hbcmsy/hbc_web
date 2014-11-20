@@ -45,15 +45,11 @@ public class ShowAction extends ActionSupport{
     	List<Title> list = new ArticleService().getArticleList(Evn.CATEGORY.ANNOUNCMENT,Evn.ARTICLE.USE);
     	int i = 0;
     	int j = list.size()-1;
-    	System.out.println("i: "+i);
-		System.out.println("j: "+j);
     	while(i<j)
     	{
-    		System.out.println("i: "+i);
-    		System.out.println("j: "+j);
     		Title temp = list.get(i);
-    		list.set(j,temp);
     		list.set(i,list.get(j));
+    		list.set(j,temp);
     		i++;
     		j--;
     	}
