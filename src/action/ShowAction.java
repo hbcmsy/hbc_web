@@ -43,11 +43,15 @@ public class ShowAction extends ActionSupport{
     }
     public String listInfo(){
     	List<Title> list = new ArticleService().getArticleList(Evn.CATEGORY.ANNOUNCMENT,Evn.ARTICLE.USE);
-    	for(int i = 0;i<list.size()/2;i++)
+    	int i = 0;
+    	int j = list.size()-1;
+    	while(i<j)
     	{
     		Title temp = list.get(i);
-    		list.set(list.size()-i-1,temp);
-    		list.set(i,list.get(list.size()-i-1));
+    		list.set(j,temp);
+    		list.set(i,list.get(j));
+    		i++;
+    		j--;
     	}
     	plist = new PageList<>(list,list.size(),10,pageNo,"hehe");
     	return "listInfo";
