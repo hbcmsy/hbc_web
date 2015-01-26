@@ -29,5 +29,10 @@
 			<result name="success">/msg.jsp</result>
 			<result name="listImage">/edit/imagesList.jsp</result>
 		</action>
+		<action name="GalleryAction" class="action.GalleryAction">
+			<result name="galleryJson" type="json">
+				<param name="root">json</param>
+			</result>
+		</action>
 	</package>
 </struts>
