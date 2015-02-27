@@ -15,6 +15,30 @@ public class Evn {
     public enum USER_AUTHORITY{USER,EDITER,ADMIN};
     public enum ARTICLE{USE,EDIT,DELETE,ALL};
     public enum CATEGORY{ANNOUNCMENT,ANIMAL,HISTORY,EXPAND};
+    public enum GALLERY_FLAG{USE,EDIT,DELETE,ALL};
+    public static Evn.GALLERY_FLAG getGALLERY_FLAG(String STATE){
+    	switch(STATE.charAt(0))
+    	{
+	    	case 'A':
+	    		return Evn.GALLERY_FLAG.ALL;
+	    	case 'U':
+	    		return Evn.GALLERY_FLAG.USE;
+	    	case 'E':
+	    		return Evn.GALLERY_FLAG.EDIT;
+	    	case 'D':
+	    		return Evn.GALLERY_FLAG.DELETE;
+	    	case 'q':
+	    		return Evn.GALLERY_FLAG.ALL;
+	    	case 'u':
+	    		return Evn.GALLERY_FLAG.USE;
+	    	case 'e':
+	    		return Evn.GALLERY_FLAG.EDIT;
+	    	case 'd':
+	    		return Evn.GALLERY_FLAG.DELETE;
+			default:
+				return Evn.GALLERY_FLAG.ALL;
+    	}
+    }
     public static Evn.ARTICLE getARTICLE(String STATE){
     	switch(STATE.charAt(0))
     	{
@@ -61,7 +85,7 @@ public class Evn {
 	    		return null;
     	}
     }
-    public static String getArticle(ARTICLE state){
+    public static String getGALLERY_FLAG(GALLERY_FLAG state){
     	switch(state)
     	{
 	    	case ALL:
@@ -76,7 +100,22 @@ public class Evn {
 				return null;
     	}
     }
-    public static String getCatrgory(CATEGORY category){
+    public static String getARTICLE(ARTICLE state){
+    	switch(state)
+    	{
+	    	case ALL:
+	    		return "a";
+	    	case USE:
+	    		return "u";
+	    	case EDIT:
+	    		return "e";
+	    	case DELETE:
+	    		return "d";
+			default:
+				return null;
+    	}
+    }
+    public static String getCATEGORY(CATEGORY category){
     	switch(category)
     	{
 	    	case ANIMAL:

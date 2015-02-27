@@ -14,19 +14,19 @@ import service.GalleryService;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import common.Evn;
+
 
 @SuppressWarnings("serial")
 public class GalleryAction extends ActionSupport{
 	String json;
-	
 	int gallery_ID = -1;
 	String gallery_title;
 	String gallery_url;
 	String gallery_href;
-	String getGalleries(){
-		if(!this.isUser())
-			return null;
-		List<Gallery> list = new GalleryService().getGalleryList();
+	String gallery_flag;
+	public String getGalleries(){
+		List<Gallery> list = new GalleryService().getGalleryList(Evn.getGALLERY_FLAG(gallery_flag));
     	JSONArray jsonArray = new JSONArray();
     	for(Gallery a:list){
     		JSONObject json = new JSONObject();
@@ -34,12 +34,13 @@ public class GalleryAction extends ActionSupport{
         	json.put("gallery_title",a.getGallery_title());
         	json.put("gallery_url", a.getGallery_url());
         	json.put("gallery_href", a.getGallery_href());
+        	json.put("gallery_flag", a.getGallery_flag());
         	jsonArray.add(json);
     	}
     	json = jsonArray.toString();  
 		return "galleryJson";
 	}
-	String getGallery(){
+	public String getGallery(){
 		if(!this.isUser())
 			return null;
 		if(gallery_ID == -1){
@@ -54,18 +55,18 @@ public class GalleryAction extends ActionSupport{
     	json = jsonObject.toString(); 
 		return "galleryJson";
 	}
-	String addGallery(){
+	public String addGallery(){
 		if(!this.isUser())
 			return null;
 		JSONObject jsonObject = new JSONObject();
-		if(new GalleryService().addGallery(gallery_title, gallery_url, gallery_href))
+		if(new GalleryService().addGallery(gallery_title, gallery_url, gallery_href,Evn.getGALLERY_FLAG(gallery_flag)))
 			jsonObject.put("gallery_add", "true");
 		else
 			jsonObject.put("gallery_add", "false");
 		json = jsonObject.toString();
 		return "galleryJson";
 	}
-	String changeGallery(){
+	public String changeGallery(){
 		if(!this.isUser())
 			return null;
 		JSONObject jsonObject = new JSONObject();
@@ -74,6 +75,7 @@ public class GalleryAction extends ActionSupport{
 		gallery.setGallery_title(gallery_title);
 		gallery.setGallery_url(gallery_url);
 		gallery.setGallery_href(gallery_href);
+		gallery.setGallery_flag(gallery_flag.charAt(0));
 		if(new GalleryService().changeGallery(gallery))
 			jsonObject.put("gallery_change", "true");
 		else
@@ -81,11 +83,36 @@ public class GalleryAction extends ActionSupport{
 		json = jsonObject.toString();
 		return "galleryJson";
 	}
-	String deleteGallery(){
+	public String deleteGallery(){
 		if(!this.isUser())
 			return null;
 		JSONObject jsonObject = new JSONObject();
-		if(new GalleryService().deleteGallery(gallery_ID))
+		Gallery gallery = new GalleryService().getGallery(gallery_ID);
+		if(Evn.GALLERY_FLAG.DELETE == Evn.getGALLERY_FLAG(gallery.getGallery_flag()+"")){
+			if(new GalleryService().deleteGallery(gallery_ID))
+				jsonObject.put("gallery_delete", "true");
+			else
+				jsonObject.put("gallery_delete", "false");
+			json = jsonObject.toString();
+			return "galleryJson";
+		}else {
+			gallery.setGallery_flag(Evn.getGALLERY_FLAG(Evn.GALLERY_FLAG.DELETE).charAt(0));
+			if(new GalleryService().changeGallery(gallery))
+				jsonObject.put("gallery_delete", "true");
+			else
+				jsonObject.put("gallery_delete", "false");
+			json = jsonObject.toString();
+			return "galleryJson";
+		}
+		
+	}
+	public String releaseGallery(){
+		if(!this.isUser())
+			return null;
+		JSONObject jsonObject = new JSONObject();
+		Gallery gallery = new GalleryService().getGallery(gallery_ID);
+		gallery.setGallery_flag(Evn.getGALLERY_FLAG(Evn.GALLERY_FLAG.USE).charAt(0));
+		if(new GalleryService().changeGallery(gallery))
 			jsonObject.put("gallery_delete", "true");
 		else
 			jsonObject.put("gallery_delete", "false");
@@ -99,6 +126,42 @@ public class GalleryAction extends ActionSupport{
 			return false;
 		else 
 			return true;
+	}
+	public String getJson() {
+		return json;
+	}
+	public void setJson(String json) {
+		this.json = json;
+	}
+	public int getGallery_ID() {
+		return gallery_ID;
+	}
+	public void setGallery_ID(int gallery_ID) {
+		this.gallery_ID = gallery_ID;
+	}
+	public String getGallery_title() {
+		return gallery_title;
+	}
+	public void setGallery_title(String gallery_title) {
+		this.gallery_title = gallery_title;
+	}
+	public String getGallery_url() {
+		return gallery_url;
+	}
+	public void setGallery_url(String gallery_url) {
+		this.gallery_url = gallery_url;
+	}
+	public String getGallery_href() {
+		return gallery_href;
+	}
+	public void setGallery_href(String gallery_href) {
+		this.gallery_href = gallery_href;
+	}
+	public String getGallery_flag() {
+		return gallery_flag;
+	}
+	public void setGallery_flag(String gallery_flag) {
+		this.gallery_flag = gallery_flag;
 	}
 	
 }
