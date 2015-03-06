@@ -59,7 +59,7 @@ public class GalleryAction extends ActionSupport{
 		if(!this.isUser())
 			return null;
 		JSONObject jsonObject = new JSONObject();
-		if(new GalleryService().addGallery(gallery_title, gallery_url, gallery_href,Evn.getGALLERY_FLAG(gallery_flag)))
+		if(new GalleryService().addGallery(gallery_title, gallery_url, gallery_href,Evn.GALLERY_FLAG.EDIT))
 			jsonObject.put("gallery_add", "true");
 		else
 			jsonObject.put("gallery_add", "false");
@@ -113,9 +113,9 @@ public class GalleryAction extends ActionSupport{
 		Gallery gallery = new GalleryService().getGallery(gallery_ID);
 		gallery.setGallery_flag(Evn.getGALLERY_FLAG(Evn.GALLERY_FLAG.USE).charAt(0));
 		if(new GalleryService().changeGallery(gallery))
-			jsonObject.put("gallery_delete", "true");
+			jsonObject.put("gallery_release", "true");
 		else
-			jsonObject.put("gallery_delete", "false");
+			jsonObject.put("gallery_release", "false");
 		json = jsonObject.toString();
 		return "galleryJson";
 	}
