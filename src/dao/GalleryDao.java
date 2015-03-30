@@ -28,6 +28,7 @@ public class GalleryDao {
                 data.setGallery_url(rs.getString(3));
                 data.setGallery_href(rs.getString(4));
                 data.setGallery_flag(rs.getString(5).charAt(0));
+                data.setGallery_No(rs.getInt(6));
             }
             return data;
         }finally {
@@ -54,6 +55,7 @@ public class GalleryDao {
                  data.setGallery_url(rs.getString(3));
                  data.setGallery_href(rs.getString(4));
                  data.setGallery_flag(flag);
+                 data.setGallery_No(rs.getInt(5));
                  list.add(data);
              }
              return list;
@@ -62,7 +64,7 @@ public class GalleryDao {
 	        SqlHelper.closePreparedStatement(ps);
 	        SqlHelper.closeConneciton(con);  
 		}
-	}//end of List<Title> getArticleList(char flag,int id,String category,char state)
+	}
     public List<Gallery> getGalleries() throws SQLException{
         Connection con = null;
         PreparedStatement ps = null;
@@ -80,6 +82,7 @@ public class GalleryDao {
                 data.setGallery_url(rs.getString(3));
                 data.setGallery_href(rs.getString(4));
                 data.setGallery_flag(rs.getString(5).charAt(0));
+                data.setGallery_No(rs.getInt(6));
                 list.add(data);
             }
             return list;
@@ -89,19 +92,47 @@ public class GalleryDao {
             SqlHelper.closeConneciton(con);
         }
     }
-    
+    public List<Gallery> getGalleriesOrderByNo(char flag) throws SQLException{
+   	 Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            con = SqlHelper.connect();
+            String sql = "select * from hbc_gallery where gallery_flag = ? Order By gallery_No asc , gallery_ID desc";
+            ps = con.prepareStatement(sql);
+            ps.setString(1, flag+"");
+            rs = ps.executeQuery();
+            List<Gallery> list = new ArrayList<>();
+            while(rs.next()){
+                Gallery data = new Gallery();
+                data.setGallery_ID(rs.getInt(1));
+                data.setGallery_title(rs.getString(2));
+                data.setGallery_url(rs.getString(3));
+                data.setGallery_href(rs.getString(4));
+                data.setGallery_flag(flag);
+                data.setGallery_No(rs.getInt(5));
+                list.add(data);
+            }
+            return list;
+		}finally {																			//释放资源
+	        SqlHelper.closeResult(rs);
+	        SqlHelper.closePreparedStatement(ps);
+	        SqlHelper.closeConneciton(con);  
+		}
+	}
     public boolean changeGallery(Gallery gallery) throws SQLException{
         Connection con = null;
         PreparedStatement ps = null;
         try{
             con = SqlHelper.connect();
-            String sql = "update hbc_gallery set gallery_title = ? , gallery_url = ? ,gallery_href = ? ,gallery_flag = ? where gallery_ID = ?";
+            String sql = "update hbc_gallery set gallery_title = ? , gallery_url = ? ,gallery_href = ? ,gallery_flag = ? ,gallery_No = ? where gallery_ID = ?";
             ps = con.prepareStatement(sql);
             ps.setString(1,gallery.getGallery_title());
             ps.setString(2,gallery.getGallery_url());
             ps.setString(3,gallery.getGallery_href());
             ps.setString(4, gallery.getGallery_flag()+"");
-            ps.setInt(5,gallery.getGallery_ID());
+            ps.setInt(5, gallery.getGallery_No());
+            ps.setInt(6,gallery.getGallery_ID());
             ps.executeUpdate();
             return true;
         }finally{
@@ -133,13 +164,14 @@ public class GalleryDao {
         PreparedStatement ps = null;
         try{
             con = SqlHelper.connect();
-            String sql = "insert into hbc_gallery (gallery_title,gallery_url,gallery_href,gallery_flag)value(?,?,?,?)";
+            String sql = "insert into hbc_gallery (gallery_title,gallery_url,gallery_href,gallery_flag,gallery_No)value(?,?,?,?,?)";
             ps = con.prepareStatement(sql);
             //ps.setInt(1,user.getUser_ID());
 	            ps.setString(1,gallery.getGallery_title());
 	            ps.setString(2,gallery.getGallery_url());
 	            ps.setString(3,gallery.getGallery_href());
 	            ps.setString(4,gallery.getGallery_flag()+"");
+	            ps.setInt(5, gallery.getGallery_No());
 	            ps.executeUpdate();
 	            return true;
         }finally{

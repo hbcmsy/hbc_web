@@ -5,6 +5,7 @@ public class Gallery {
 	String gallery_title;
 	String gallery_url;
 	String gallery_href;
+	int gallery_No;
 	char gallery_flag;
 	public int getGallery_ID() {
 		return gallery_ID;
@@ -35,6 +36,12 @@ public class Gallery {
 	}
 	public void setGallery_flag(char gallery_flag) {
 		this.gallery_flag = gallery_flag;
+	}
+	public int getGallery_No() {
+		return gallery_No;
+	}
+	public void setGallery_No(int No) {
+		this.gallery_No = No;
 	}
 
 }

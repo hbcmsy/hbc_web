@@ -25,6 +25,7 @@ public class GalleryAction extends ActionSupport{
 	String gallery_url;
 	String gallery_href;
 	String gallery_flag;
+	int gallery_No;
 	public String getGalleries(){
 		List<Gallery> list = new GalleryService().getGalleryList(Evn.getGALLERY_FLAG(gallery_flag));
     	JSONArray jsonArray = new JSONArray();
@@ -35,6 +36,23 @@ public class GalleryAction extends ActionSupport{
         	json.put("gallery_url", a.getGallery_url());
         	json.put("gallery_href", a.getGallery_href());
         	json.put("gallery_flag", a.getGallery_flag());
+        	json.put("gallery_No", a.getGallery_No());
+        	jsonArray.add(json);
+    	}
+    	json = jsonArray.toString();  
+		return "galleryJson";
+	}
+	public String getGalleriesOrderById(){
+		List<Gallery> list = new GalleryService().getGalleryList(Evn.getGALLERY_FLAG(gallery_flag));
+    	JSONArray jsonArray = new JSONArray();
+    	for(Gallery a:list){
+    		JSONObject json = new JSONObject();
+    		json.put("gallery_ID", a.getGallery_ID());
+        	json.put("gallery_title",a.getGallery_title());
+        	json.put("gallery_url", a.getGallery_url());
+        	json.put("gallery_href", a.getGallery_href());
+        	json.put("gallery_flag", a.getGallery_flag());
+        	json.put("gallery_No", a.getGallery_No());
         	jsonArray.add(json);
     	}
     	json = jsonArray.toString();  
@@ -52,6 +70,7 @@ public class GalleryAction extends ActionSupport{
     	jsonObject.put("gallery_title",a.getGallery_title());
     	jsonObject.put("gallery_url", a.getGallery_url());
     	jsonObject.put("gallery_href", a.getGallery_href());
+    	jsonObject.put("gallery_No", a.getGallery_No());
     	json = jsonObject.toString(); 
 		return "galleryJson";
 	}
@@ -59,7 +78,7 @@ public class GalleryAction extends ActionSupport{
 		if(!this.isUser())
 			return null;
 		JSONObject jsonObject = new JSONObject();
-		if(new GalleryService().addGallery(gallery_title, gallery_url, gallery_href,Evn.GALLERY_FLAG.EDIT))
+		if(new GalleryService().addGallery(gallery_title, gallery_url, gallery_href,gallery_No,Evn.GALLERY_FLAG.EDIT))
 			jsonObject.put("gallery_add", "true");
 		else
 			jsonObject.put("gallery_add", "false");
@@ -72,6 +91,7 @@ public class GalleryAction extends ActionSupport{
 		JSONObject jsonObject = new JSONObject();
 		Gallery gallery = new Gallery();
 		gallery.setGallery_ID(gallery_ID);
+		gallery.setGallery_No(gallery_No);
 		gallery.setGallery_title(gallery_title);
 		gallery.setGallery_url(gallery_url);
 		gallery.setGallery_href(gallery_href);

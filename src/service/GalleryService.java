@@ -10,11 +10,12 @@ import dao.GalleryDao;
 import common.Evn;
 
 public class GalleryService {
-	    public boolean addGallery(String title,String url,String href,Evn.GALLERY_FLAG flag){
+	    public boolean addGallery(String title,String url,String href,int No,Evn.GALLERY_FLAG flag){
 	    	Gallery gallery = new Gallery();
 	    	gallery.setGallery_title(title);
 	    	gallery.setGallery_url(url);
 	    	gallery.setGallery_href(href);
+	    	gallery.setGallery_No(No);
 	    	gallery.setGallery_flag(Evn.getGALLERY_FLAG(flag).charAt(0));
 	    	return this.addGallery(gallery);
 	    }
@@ -40,6 +41,17 @@ public class GalleryService {
 	    		return this.getGalleryList();
 	    	try {
 				return new GalleryDao().getGalleries(Evn.getGALLERY_FLAG(flag).charAt(0));
+			} catch (SQLException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+				return null;
+			}
+	    }
+	    public List<Gallery> getGalleryListOrderByNo(Evn.GALLERY_FLAG flag){
+	    	if(flag == Evn.GALLERY_FLAG.ALL)
+	    		return this.getGalleryList();
+	    	try {
+				return new GalleryDao().getGalleriesOrderByNo(Evn.getGALLERY_FLAG(flag).charAt(0));
 			} catch (SQLException e) {
 				// TODO 自动生成的 catch 块
 				e.printStackTrace();
