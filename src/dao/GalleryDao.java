@@ -98,7 +98,7 @@ public class GalleryDao {
         ResultSet rs = null;
         try{
             con = SqlHelper.connect();
-            String sql = "select * from hbc_gallery where gallery_flag = ? Order By gallery_No asc , gallery_ID desc";
+            String sql = "select * from hbc_gallery where gallery_flag = ? Order By gallery_No desc , gallery_ID desc";
             ps = con.prepareStatement(sql);
             ps.setString(1, flag+"");
             rs = ps.executeQuery();

@@ -27,6 +27,8 @@ public class GalleryAction extends ActionSupport{
 	String gallery_flag;
 	int gallery_No;
 	public String getGalleries(){
+		if(!this.isUser())
+			return null;
 		List<Gallery> list = new GalleryService().getGalleryListOrderByNo(Evn.getGALLERY_FLAG(gallery_flag));
     	JSONArray jsonArray = new JSONArray();
     	for(Gallery a:list){
@@ -44,6 +46,22 @@ public class GalleryAction extends ActionSupport{
 	}
 	public String getGalleriesOrderById(){
 		List<Gallery> list = new GalleryService().getGalleryList(Evn.getGALLERY_FLAG(gallery_flag));
+    	JSONArray jsonArray = new JSONArray();
+    	for(Gallery a:list){
+    		JSONObject json = new JSONObject();
+    		json.put("gallery_ID", a.getGallery_ID());
+        	json.put("gallery_title",a.getGallery_title());
+        	json.put("gallery_url", a.getGallery_url());
+        	json.put("gallery_href", a.getGallery_href());
+        	json.put("gallery_flag", a.getGallery_flag());
+        	json.put("gallery_No", a.getGallery_No());
+        	jsonArray.add(json);
+    	}
+    	json = jsonArray.toString();  
+		return "galleryJson";
+	}
+	public String showGalleries(){
+		List<Gallery> list = new GalleryService().getGalleryListOrderByNo(Evn.GALLERY_FLAG.USE);
     	JSONArray jsonArray = new JSONArray();
     	for(Gallery a:list){
     		JSONObject json = new JSONObject();
@@ -182,6 +200,12 @@ public class GalleryAction extends ActionSupport{
 	}
 	public void setGallery_flag(String gallery_flag) {
 		this.gallery_flag = gallery_flag;
+	}
+	public int getGallery_No() {
+		return gallery_No;
+	}
+	public void setGallery_No(int gallery_No) {
+		this.gallery_No = gallery_No;
 	}
 	
 }
