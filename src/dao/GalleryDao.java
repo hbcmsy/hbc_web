@@ -110,7 +110,7 @@ public class GalleryDao {
                 data.setGallery_url(rs.getString(3));
                 data.setGallery_href(rs.getString(4));
                 data.setGallery_flag(flag);
-                data.setGallery_No(rs.getInt(5));
+                data.setGallery_No(rs.getInt(6));
                 list.add(data);
             }
             return list;
