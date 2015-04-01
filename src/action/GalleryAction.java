@@ -27,7 +27,7 @@ public class GalleryAction extends ActionSupport{
 	String gallery_flag;
 	int gallery_No;
 	public String getGalleries(){
-		List<Gallery> list = new GalleryService().getGalleryList(Evn.getGALLERY_FLAG(gallery_flag));
+		List<Gallery> list = new GalleryService().getGalleryListOrderByNo(Evn.getGALLERY_FLAG(gallery_flag));
     	JSONArray jsonArray = new JSONArray();
     	for(Gallery a:list){
     		JSONObject json = new JSONObject();
