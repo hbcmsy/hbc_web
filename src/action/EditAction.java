@@ -59,7 +59,7 @@ public class EditAction extends ActionSupport{
         if(user.getUser_authority()=='u')
             return this.list();
         ArticleService as = new ArticleService();
-        article_ID = as.addArticle(" "," "," ",user.getUser_ID(),Evn.ARTICLE_SAVE_LOCATION.DATABASE);
+        article_ID = as.addArticle("待编辑","待编辑","g",user.getUser_ID(),Evn.ARTICLE_SAVE_LOCATION.DATABASE);
         edit_title=edit_text="待编辑";
         request.getSession().setAttribute("article_ID",article_ID);
         return "add";
