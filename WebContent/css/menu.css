@@ -1,0 +1,167 @@
+	#menu_bar {
+			width: auto;
+			text-align: center;
+			width: 85%;
+			height: 45px;
+			background-color: #172322;
+			padding-left:15%;
+
+		}
+	/* menu */
+		#menu {
+			list-style: none;
+			color: #fff;
+			line-height: 45px;
+			//display: inline-block;
+			//float: left;
+			z-index: 1000;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			//padding-left: 15%;
+			//padding-right:15%;
+			//width: 70%;
+		}
+		
+		#menu a {
+			color: #fff;
+			text-decoration: none;
+		}
+		
+		#menu>li {
+			background: #172322 none repeat scroll 0 0;
+			cursor: pointer;
+			float: left;
+			position: relative;
+			padding: 0px 10px;
+			min-width: 64px;/*大于四个字宽度*/
+			width:11%;
+			
+		}
+		
+		#menu>li a:hover {
+			color: #B0D730;
+		}
+		
+		#menu .logo {
+			//覆盖原有样式表
+			//background: transparent none repeat scroll 0% 0%;
+			padding: 0px;
+			//background-color: Transparent;
+			min-width: 149px;
+			max-width: 15%;
+		}
+		/* sub-menus*/
+		#menu ul {
+			padding: 0px;
+			margin: 0px;
+			display: block;
+			display: inline;
+		}
+		
+		#menu li ul {
+			position: absolute;
+			z-index:2000;
+			left: -10px;
+			/**/
+			right:10px;
+			top: 0px;
+			margin-top: 45px;
+			//width: 150px;
+			line-height: 16px;
+			background-color: #172322;
+			color: #0395CC; /* for IE */
+			display: none;
+			margin-left:auto; 
+			margin-right:auto;
+			text-align:center
+		}
+		
+		
+		#menu li:hover ul {
+			display: block;
+		}
+		
+		#menu li ul li {
+			display: block;
+			margin: 5px 20px;
+			padding: 5px 0px;
+			border-top: dotted 1px #606060;
+			list-style-type: none;
+		}
+		
+		#menu li ul li:first-child {
+			border-top: none;
+		}
+		
+		#menu li ul li a {
+			display: block;
+			color: #0395CC;
+		}
+		
+		#menu li ul li a:hover {
+			color: #7FCDFE;
+		}
+		/* main submenu */
+		#menu .logo_main {
+			left: 0px;
+			top: -20px;
+			padding-top: 20px;
+			background-color: #7cb7e3;
+			color: #fff;
+			z-index: 999;
+		}
+		/* corners*/
+		#menu .corner_inset_left {
+			position: absolute;
+			top: 0px;
+			left: -12px;
+			width:12px;
+			height:10px;
+			
+		}
+		
+		#menu .corner_inset_right {
+			position: absolute;
+			top: 0px;
+			/**/
+			left: 100%;
+			width:12px;
+			height:10px;
+
+		}
+		
+		#menu .last {
+			background: transparent none repeat scroll 0% 0%;
+			margin: 0px;
+			padding: 0px;
+			border: none;
+			position: relative;
+			border: none;
+			height: 0px;
+		}
+		
+		#menu .corner_left {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+		}
+		
+		#menu .corner_right {
+			position: absolute;
+			/**/
+			/*left: 132px;*/
+			right:0px;
+			top: 0px;
+		}
+		
+		#menu .middle {
+			position: absolute;
+			left: 18px;
+			height: 20px;
+			/*width: 115px;*/
+			top: 0px;
+
+		}	
+        

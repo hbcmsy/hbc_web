@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>galleryEdite</title>
+	<style type="text/css">
+	ul{
+		list-style:none;
+		float:left;
+		margin-top:0;
+		padding-left:0;
+	}
+	ul li button{
+		width:55px;
+		height:21px;
+	}
+	table{
+		padding:0;
+		margin-left:100px;
+		margin-top:0;
+		
+	}
+	#edit{
+		margin-left:150px;
+	}
+	</style>
+	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+	<script type="text/javascript">
+	var url = "/action/GalleryAction!getGalleries.action?gallery_flag="
+	var gallery_flag = "a";
+	var json_static = null;
+	changeState('U');
+	function show(json){
+		for(iterator = 0 ; iterator < json.length;iterator++)
+		{
+			$table = $("#table");
+	    	var tr = $("<tr></tr>");
+			var ID = $("<td>"+json[iterator].gallery_ID +"</td>");
+			var No = $("<td>"+json[iterator].gallery_No +"</td>");
+			var title = $("<td>"+json[iterator].gallery_title +"</td>");
+			var href = $("<td><a href='"+json[iterator].gallery_href +"'>"+json[iterator].gallery_href+"</a></td>"); 
+			var url = $("<td><a href='"+json[iterator].gallery_url +"'>"+json[iterator].gallery_url+"</a></td>"); 
+			var flag =$("<td>"+json[iterator].gallery_flag +"</td>"); 
+			
+			var del = $("<td><button onclick='del("+json[iterator].gallery_ID+")'>delete</button></td>");
+			var release = $("<td><button onclick='release("+json[iterator].gallery_ID+")'>release</button></td>");	
+			var edit = $("<td><button onclick=edit("+iterator+");>edit</button></td>");
+			tr.append(ID).append(No).append(title).append(url).append(href).append(flag).append(del).append(release).append(edit);
+			$table.append(tr);
+		}
+	}
+	function getJSON(){
+		$.getJSON(url+gallery_flag,function(json){ 
+			json = JSON.parse(json);
+			json_static = json;
+			show(json_static);
+    	});
+	}
+    function changeState(state){
+	   	$("#table").empty().append($("<tr><th>ID</th><th>No</th><th>title</th><th>url</th><th>href</th><th>flag</th><th>delete</th><th>release</th><th>edit</th></tr>"));
+	   	$("#edit").empty();
+    	gallery_flag = state;
+	   	getJSON();	
+   }
+    function edit(iterator){
+    	$("#table").empty();
+    	
+    	var title = $('<p>title<input id="title" value="'+json_static[iterator].gallery_title+'"></input></p>');
+		var url = $('<p>url<input id="url" value="'+json_static[iterator].gallery_url+'"></input></p>');
+		var href_img = $('<p><img id=href_img src="'+json_static[iterator].gallery_href+'"/></p>');
+		var href = $('<p>href<input id="href" value="'+json_static[iterator].gallery_href+'"></input></p>');
+		var No = $('<p>No<input id="No" value="'+json_static[iterator].gallery_No+'"></input></p>')
+		var button = $("<button onclick='save("+json_static[iterator].gallery_ID+")'>保存</button>");
+		$("#edit").append(title).append(url).append(No).append(href).append(href_img).append(button);
+    }
+    function save(ID){
+    	console.log(ID);
+    	var j = {};
+    	j["gallery_ID"] = ID;
+    	j["gallery_No"] = $("#No").attr("value");
+    	j["gallery_title"] = $("#title").attr("value");
+    	j["gallery_url"] = $("#url").attr("value");
+    	j["gallery_href"] = $("#href").attr("value");
+    	j["gallery_flag"] = "e";
+    	console.log(j);
+    	if(ID!=-1)
+	    	$.post("/action/GalleryAction!changeGallery",j,
+	 			function(json){
+	    			json = JSON.parse(json);
+	    			console.log(json);
+	    			console.log(json["gallery_change"]);
+	    			if(json["gallery_change"] == 'true')
+	    				changeState("E");
+	    			else
+	    				alert("保存失败!");
+	    		});
+    	else
+    		$.post("/action/GalleryAction!addGallery",j,
+   				function(json){
+	    			json = JSON.parse(json);
+	    			console.log(json);
+	    			console.log(json["gallery_add"]);
+	    			if(json["gallery_add"] == 'true')
+	    				changeState("E");
+	    			else
+	    				alert("保存失败!");
+    		});
+    }
+    function release(ID){
+    	console.log(ID);
+    	$.post('/action/GalleryAction!releaseGallery',{gallery_ID:ID},function(json){
+    		json = JSON.parse(json);
+			console.log(json);
+			console.log(json["gallery_release"]);
+			if(json["gallery_release"] == 'true')
+				changeState("A");
+			else
+				alert("发布失败!");
+    	});   	
+    }
+    function del(ID){
+    	console.log(ID);
+    	$.post('/action/GalleryAction!deleteGallery',{gallery_ID:ID},function(json){
+    		json = JSON.parse(json);
+			console.log(json);
+			console.log(json["gallery_delete"]);
+			if(json["gallery_delete"] == 'true')
+				changeState("A");
+			else
+				alert("删除失败!");
+    	});
+    }
+    function add() {
+    	$("#table").empty();
+    	$("#edit").empty();
+    	var title = $('<p>title<input id="title" "></input></p>');
+    	var No = $('<p>No<input id="No" "></input></p>');
+		var url = $('<p>url<input id="url"></input></p>');
+		var href_img = $('<p><img id=href_img /></p>');
+		var href = $('<p>href<input id="href"></input></p>');
+		var button = $("<button onclick='save(-1)'>保存</button>");
+		$("#edit").append(title).append(No).append(url).append(href).append(href_img).append(button);
+	}
+	</script>
+</head>
+<body>
+	<ul>
+	    <li><button onclick="changeState('U')">已发布</button></li>
+	    <li><button onclick="changeState('E')">编辑中</button></li>
+		<li><button onclick="changeState('D')">回收站</button></li>
+	    <li><button onclick="changeState('A')">全    部</button></li>
+	    <li><button onclick="add()">添    加</button></li>
+	</ul>
+	<table id = "table" border="1">
+		<tr>
+			<th>ID</th>
+			<th>No</th>
+			<th>title</th>
+			<th>url</th>
+			<th>href</th>
+			<th>flag</th>
+			<th>delete</th>
+			<th>release</th>
+			<th>edit</th>
+		</tr>
+	</table>
+	<div id="edit">
+	</div>
+</body>
+</html>

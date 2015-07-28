@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<!--
+    Configuration file for UrlRewriteFilter
+    http://www.tuckey.org/urlrewrite/
+-->
+<urlrewrite>
+	
+    
+    <rule>
+        <note>
+        	将主页上所有jsp重写成html
+        	example /index.jsp /index.html
+        </note>
+        <from>^/([A-Za-z]+).html$</from>
+        <to type="forward">/$1.jsp</to>
+    </rule>
+    <!-- 
+	    <rule>
+	    	<note>
+	    		3D街景不重写
+	    	</note>
+	    	<from>/panorama/([A-Za-z0-9]+).html$</from>
+	    	<to type="forward">/panorama/$1.html</to>
+	    </rule>
+     -->
+    <!-- 公告部分重写 begin-->
+    <rule>
+		<note>
+			公告列表  重写
+		</note>
+		<from>/infoList$</from>
+		<to type="forward">/action/ShowAction!listInfo.action</to> 
+	</rule>
+	<rule>
+		<note>
+			公告列表  重写
+		</note>
+		<from>/infoList/([0-9]*)</from>
+		<to type="forward">/action/ShowAction!listInfo.action?pageNo=$1</to> 
+	</rule>
+	<rule>
+		<note>
+			公告 重写
+			example /info/2 /action/ShowAction!info.action?article_ID=2		
+		</note>
+		<from>/info/([^/]*)</from>
+		<to type="forward">/action/ShowAction!info.action?article_ID=$1</to> 
+	</rule>
+	<!-- 公告部分重写 end-->
+	<rule>
+		<note>
+			所有文章
+			example /article/2 /action/ShowAction!show.action?article_ID=2
+		</note>
+		<from>/article/([^/]*)</from>
+		<to type="forward">/action/ShowAction!show.action?article_ID=$1</to>
+	</rule>
+</urlrewrite>

@@ -1,0 +1,27 @@
+.item img {
+  		width:270px;
+	max-width: 100%;
+}
+.item {
+	width:270px;
+	mim-height:300px;
+	padding: 10px;
+	background: #fff;
+	margin: 5px;
+	font-size: 12px;
+	float: left;
+	box-shadow: 0 1px 3px rgba(34,25,25,0.4);
+	-moz-box-shadow: 0 1px 3px rgba(34,25,25,0.4);
+	-webkit-box-shadow: 0 1px 3px rgba(42, 34, 34, 0.4);
+	-webkit-transition: top 1s ease, left 1s ease;
+	-moz-transition: top 1s ease, left 1s ease;
+	-o-transition: top 1s ease, left 1s ease;
+	-ms-transition: top 1s ease, left 1s ease;
+}
+#container{
+	color: #000000;
+	text-align: center;
+}
+#main{
+	
+}

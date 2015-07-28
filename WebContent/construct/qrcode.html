@@ -1,0 +1,14 @@
+<!-- <%@page contentType="text/html" pageEncoding="UTF-8"%> -->
+<script type="text/javascript">
+	$(document).ready(function(){
+        var width = $("#qrcode_left").width();
+        $("qrcode_right").css("height",width);
+        $("qrcode_left").css("height",width);
+    });
+</script>
+<div id="qrcode_left">
+	<img alt="微博" src="http://bcs.duapp.com/hbcmsy/images/sina_weibo.png" width="100%"/>
+</div>
+<div id="qrcode_right">
+	<img alt="微信" src="http://bcs.duapp.com/hbcmsy/images/qrcode_wx.jpg" width="100%"/>
+</div>
