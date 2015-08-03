@@ -28,9 +28,10 @@
 			
 		});
         function load(id){
-        	id = "list";
-       		var e = window.document.getElementById(id);
-        	e.src = e.src;
+        	//id = "list";
+       		//var e = window.document.getElementById(id);
+       		$("#main-content").load(url+state+category+selected);
+        	//e.src = e.src;
         }
         var url = "/action/EditAction!list.action?" 
         var state = "STATE=U";
@@ -69,7 +70,8 @@
        		default:
        			break;
         	}
-        	document.getElementById('list').src = url+state+category+selected;
+        	$("#main-content").load(url+state+category+selected);
+        	//document.getElementById('list').src = url+state+category+selected;
         }
         function changeSelect(){
         	var value = select.options[select.selectedIndex].value;
@@ -87,7 +89,9 @@
        			break;
         	}
         	//window.alert(url+state+category+selected);
-        	document.getElementById('list').src = url+state+category+selected;	
+        	//document.getElementById('list').src = url+state+category+selected;
+        	//document.getElementById('list').contentWindow.location.reload();
+        	$("#main-content").load(url+state+category+selected);
         }
 	</script>
 
@@ -133,7 +137,9 @@
             </ul>
         </div>
         <div id="main-content">
-            <iframe class="list" id="list" frameborder="0" src="/action/EditAction!list.action?STATE=ALL"> </iframe>
+             
+            	<iframe class="list" id="list" frameborder="0" src="/action/EditAction!list.action?STATE=ALL"> </iframe>
+            
         </div>
 	</div>
 	<div style="clear: both;"></div>
