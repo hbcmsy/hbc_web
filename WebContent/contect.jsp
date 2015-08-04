@@ -44,10 +44,10 @@
           	<div id="main_right" style="width: 45%; float: right; color: #FFF; opacity: 1; text-align: center;">
        		  <h1>官方微博</h1>
             		<a href="http://weibo.com/u/5230081849">
-               		<img src="http://bcs.duapp.com/hbcmsy/images/sina_weibo.png" alt="微博" width="150" height="150"/></a>
+               		<img src="/images/sina_weibo.png" alt="微博" width="150" height="150"/></a>
            		<h1>官方微信</h1>
        	      	<p>
-                	<img src="http://bcs.duapp.com/hbcmsy/images/qrcode_wx.png" alt="hbcmstyy" width="150" height="150"/>
+                	<img src="/images/qrcode_wx.png" alt="hbcmstyy" width="150" height="150"/>
    	        	</p>
        	      	<p>hbcmstyy</p>
           	</div>
