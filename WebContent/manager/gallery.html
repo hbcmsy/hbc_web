@@ -26,10 +26,10 @@
 	</style>
 	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
 	<script type="text/javascript">
-	var url = "/action/GalleryAction!getGalleries.action?gallery_flag="
+	var gallery_url = "/action/GalleryAction!getGalleries.action?gallery_flag="
 	var gallery_flag = "a";
 	var json_static = null;
-	changeState('U');
+	changeGalleryState('U');
 	function show(json){
 		for(iterator = 0 ; iterator < json.length;iterator++)
 		{
@@ -50,18 +50,18 @@
 		}
 	}
 	function getJSON(){
-		$.getJSON(url+gallery_flag,function(json){ 
+		$.getJSON(gallery_url+gallery_flag,function(json){ 
 			json = JSON.parse(json);
 			json_static = json;
 			show(json_static);
     	});
 	}
-    function changeState(state){
+	function changeGalleryState(state){
 	   	$("#table").empty().append($("<tr><th>ID</th><th>No</th><th>title</th><th>url</th><th>href</th><th>flag</th><th>delete</th><th>release</th><th>edit</th></tr>"));
 	   	$("#edit").empty();
     	gallery_flag = state;
 	   	getJSON();	
-   }
+   	}
     function edit(iterator){
     	$("#table").empty();
     	
@@ -145,12 +145,12 @@
 </head>
 <body>
 	<ul>
-	    <li><button onclick="changeState('U')">已发布</button></li>
-	    <li><button onclick="changeState('E')">编辑中</button></li>
-		<li><button onclick="changeState('D')">回收站</button></li>
-	    <li><button onclick="changeState('A')">全    部</button></li>
+	    <li><button onclick="changeGalleryState('U')">已发布</button></li>
+	    <li><button onclick="changeGalleryState('E')">编辑中</button></li>
+		<li><button onclick="changeGalleryState('D')">回收站</button></li>
+	    <li><button onclick="changeGalleryState('A')">全    部</button></li>
 	    <li><button onclick="add()">添    加</button></li>
-	</ul>
+    </ul>
 	<table id = "table" border="1">
 		<tr>
 			<th>ID</th>

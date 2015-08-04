@@ -129,7 +129,7 @@
        <div style="clear: both;"></div>
         <div id="left-sidebar">
             <ul>
-            <li><button onclick="document.getElementById('list').src='/manager/gallery.html'">首页编辑</button></li>
+            <li><button onclick="$('#main-content').load('/manager/gallery.html')">首页编辑</button></li>
             <li><button onclick="changeState('g')">公告</button></li>
             <li><button onclick="changeState('l')">历史展区</button></li>
             <li><button onclick="changeState('d')">动物园</button></li>
