@@ -149,7 +149,7 @@ public class GalleryDao {
         PreparedStatement ps = null;
         try{
             con = SqlHelper.connect();
-            String sql = "delete frome  hbc_gallery where gallery_ID = ?";
+            String sql = "delete from  hbc_gallery where gallery_ID = ?";
             ps = con.prepareStatement(sql);
             ps.setInt(1,ID);
             ps.executeUpdate();
