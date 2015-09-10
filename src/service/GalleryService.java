@@ -23,7 +23,7 @@ public class GalleryService {
 	    	try {
 				return new GalleryDao().addGallery(gallery);
 			} catch (SQLException e) {
-				// TODO 自动生成的 catch 块
+
 				e.printStackTrace();
 				return false;
 			}
@@ -42,7 +42,6 @@ public class GalleryService {
 	    	try {
 				return new GalleryDao().getGalleries(Evn.getGALLERY_FLAG(flag).charAt(0));
 			} catch (SQLException e) {
-				// TODO 自动生成的 catch 块
 				e.printStackTrace();
 				return null;
 			}
@@ -53,7 +52,6 @@ public class GalleryService {
 	    	try {
 				return new GalleryDao().getGalleriesOrderByNo(Evn.getGALLERY_FLAG(flag).charAt(0));
 			} catch (SQLException e) {
-				// TODO 自动生成的 catch 块
 				e.printStackTrace();
 				return null;
 			}
