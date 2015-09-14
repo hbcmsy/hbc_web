@@ -19,7 +19,7 @@
 							<img width = "400px" src="/articleImage/${article_ID}/${c}"/>								
 						</td>
 						<td align="center">
-							<a href=javascript:deleteImage($(c),$(article_ID))>删除</a>
+							<a href=javascript:deleteImage(${article_ID},'${c}')>删除</a>
 						</td>
 					</tr>
 				</c:forEach>

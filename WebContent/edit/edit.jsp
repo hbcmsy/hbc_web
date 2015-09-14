@@ -35,20 +35,24 @@
 		//var value = select.options[select.selectedIndex].value;		
 		function changeImage(){
        		var article_ID = '${article_ID}';
-       		var image_url = $("#image_url").val();
+	       		var image_url = $("#edit_image").val();
 			//window.alert(image_url);
+			console.log(image_url);
 			image_url="/articleImage/"+"/"+article_ID+"/"+image_url;
+			console.log(image_url);
 			$("#image").attr("src",image_url);
 		}
 		function reloadImage(){
 			var src="/action/UploadAction!listImage.action?article_ID=${article_ID}"
+			console.log(src);
+			$("#imageList").empty();
 			$("#imageList").load(src);					 
 		}
 		function deleteImage(article_ID,image_ID){
 			$.post("/action/UploadAction!deleteImage.action?image_ID="+image_ID+"&article_ID="+article_ID);
 			reloadImage()
 		}
-	
+		reloadImage();	
 		var article_ID = '${article_ID}';	
 		//var url = '/actions/UploadAction!image.action?article_ID='+article_ID;
         
