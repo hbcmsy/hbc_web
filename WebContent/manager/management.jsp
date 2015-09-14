@@ -7,6 +7,7 @@
 	<title>后台编辑</title>
 	<link rel="stylesheet" type="text/css" href="../css/managment.css" />
 	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+	<script type="text/javascript" src="/ckeditor/ckeditor.js" charset="UTF-8"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			jQuery.jqtab = function(tabtit,tab_conbox,shijian) {
@@ -25,13 +26,33 @@
 			/*调用方法如下：*/
 			$.jqtab("#tabs","#tab_conbox","click");
 			//$.jqtab("#tabs","#tab_conbox","mouseenter");
+			load("/action/EditAction!list.action?STATE=ALL");
 			
 		});
-        function load(id){
-        	//id = "list";
-       		//var e = window.document.getElementById(id);
-       		$("#main-content").load(url+state+category+selected);
-        	//e.src = e.src;
+        function load(url){
+        	var content = $("#main-content");
+        	/*$.get(url,function(data,status){
+       			content.append($(data));
+       		});*/
+        	content.load(url,function(){
+       			console.log($("#main-content"));
+       		});
+        }
+        function saveArticle(url,id,title,image,text,category){
+       		var j = {};
+       		j["article_ID"] = id;
+       		j["edit_title"] = title.val();
+       		j["edit_text"] = editor.getData();//text.val();
+       		j["edit_image"] = image.val();
+       		j["edit_category"] = category.val();
+       		var content = $("#main-content");
+       		$.post(url,j,function(data){
+      				content.empty();
+       			content.append($(data));
+      			});
+       		/*content.load(url,function(){
+           			console.log($("#main-content"));
+           		});*/
         }
         var url = "/action/EditAction!list.action?" 
         var state = "STATE=U";
@@ -70,7 +91,8 @@
        		default:
        			break;
         	}
-        	$("#main-content").load(url+state+category+selected);
+        	load(url+state+category+selected);
+        	//$("#main-content").load(url+state+category+selected);
         	//document.getElementById('list').src = url+state+category+selected;
         }
         function changeSelect(){
@@ -91,7 +113,8 @@
         	//window.alert(url+state+category+selected);
         	//document.getElementById('list').src = url+state+category+selected;
         	//document.getElementById('list').contentWindow.location.reload();
-        	$("#main-content").load(url+state+category+selected);
+        	load(url+state+category+selected);
+        	//$("#main-content").load(url+state+category+selected);
         }
 	</script>
 
@@ -103,9 +126,7 @@
 			<a class="header-button" href="/manager/management.jsp">Back Home</a>		
 		</div>
 		<div id="header_right">
-			<iframe id="userbar" onload="load('list')" src="/action/UserAction!show.action" 
-			scrolling="no" frameborder="0"
-					width="500"></iframe>
+			<iframe id="userbar"  src="/action/UserAction!show.action" width="500"></iframe>
 		</div>
 	</div>
 	<div id="main">
@@ -137,9 +158,6 @@
             </ul>
         </div>
         <div id="main-content">
-             
-            	<iframe class="list" id="list" frameborder="0" src="/action/EditAction!list.action?STATE=ALL"> </iframe>
-            
         </div>
 	</div>
 	<div style="clear: both;"></div>

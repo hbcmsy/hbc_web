@@ -6,7 +6,7 @@
 <title>JSP Page</title>
 </head>
 <body>
-	<iframe name="hello" align="right" frameborder="0"
+	<iframe name="hello"
 		src="/hbc/action/UserAction!show.action"></iframe>
 	<h1>Hello World!</h1>
 </body>

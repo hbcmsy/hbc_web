@@ -83,3 +83,7 @@ body {
 	height: 700px;
 	float: right;
 }
+iframe{
+	border-style:none;
+	overflow:visible;
+}

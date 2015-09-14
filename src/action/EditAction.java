@@ -97,6 +97,9 @@ public class EditAction extends ActionSupport{
     }
     
     public String save(){
+    	System.out.printf(edit_title);
+    	System.out.printf(edit_text);
+    	
         HttpServletRequest request = ServletActionContext.getRequest();
         User user =(User)request.getSession().getAttribute("userInfo");
        
